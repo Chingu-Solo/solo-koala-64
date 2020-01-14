@@ -1,0 +1,21 @@
+import React from 'react';
+
+const API_KEY: string = process.env.local.REACT_APP_GOOGLE_FONTS_API_KEY;
+
+let apiUrl = [];
+apiUrl.push('https://fonts.googleapis.com/css?family=');
+apiUrl.push(anonymousPro.family.replace(/ /g, '+'));
+if (contains('italic', anonymousPro.variants)) {
+  apiUrl.push(':');
+  apiUrl.push('italic');
+}
+if (contains('greek', anonymousPro.subsets)) {
+  apiUrl.push('&subset=');
+  apiUrl.push('greek');
+}
+// url: 'https://fonts.googleapis.com/css?family=Anonymous+Pro:italic&subset=greek'
+
+const url = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity` //apiUrl.join('');
+
+export default url;
+
