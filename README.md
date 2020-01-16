@@ -1,5 +1,4 @@
-# favfonts
-
+# solo-koala-64 (favfonts) 
 Project in development ... 
 
 This is my first chingu showcase in Tier2 level (Frontend Only).

@@ -1,4 +1,4 @@
-export type Fonts = string[];
+import { Fonts } from '../../src/api/GoogleFonts'
 
 export const fonts: Fonts = [
   'Tangerine',
