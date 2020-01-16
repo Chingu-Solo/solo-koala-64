@@ -1,4 +1,4 @@
-export async function Get<T>(url: string): Promise<T | never> {
+export async function get<T>(url: string): Promise<T | never> {
   let response: Response = await fetch(url);
   if (!response.ok) {
     //TODO alert(response.statusText);

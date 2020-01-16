@@ -3,11 +3,11 @@ import './App.css';
 
 import { fonts } from './fixtures/fonts';
 
-import { url, Fonts } from './api/GoogleFonts'
+import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts'
 
 
 interface CardProps { 
-  fonts: Fonts,
+  fonts: GoogleFont,
 }
 
 function Cards({ fonts }: CardProps) {
@@ -27,7 +27,7 @@ interface AppState extends CardProps {
 }
 
 export default class App extends React.Component {
-  initFonts: Fonts = fonts;
+  fonts: Fonts = fonts;
   readonly state: AppState = {
     fonts: this.initFonts, //TODO call G-fonts API once.  async > if !fonts > display standard
     response: '',

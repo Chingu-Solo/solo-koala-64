@@ -1,4 +1,4 @@
-import { Get } from '../common/utils/ApiUtils';
+import { get } from '../common/utils/ApiUtils';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_FONTS_API_KEY;
 
@@ -21,7 +21,7 @@ type FontsDeveloperAPI = {
   items: Item[],
 }
 
-type StyleSheetURL = string;
+type StyleSheetURL = string | null;
 
 export type GoogleFont = {
   family: Family,
@@ -35,9 +35,9 @@ export default class GoogleFontsAPI {
   );
 
   async _getGoogleFonts(): Promise<GoogleFont[] | never> {
-    const { kind, items } = await Get<FontsDeveloperAPI>(this.request);
+    const { kind, items } = await get<FontsDeveloperAPI>(this.request);
     return (
-      items && items.map( (item): GoogleFont  => {
+      items && items.map( (item: Item): GoogleFont  => {
         return ({
           'family': item.family,
           'styleSheetURL': this.styleSheetURL(item)
