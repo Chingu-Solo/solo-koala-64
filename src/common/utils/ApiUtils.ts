@@ -1,5 +1,3 @@
-
-
 export async function Get<T>(url: string): Promise<T | never> {
   let response: Response = await fetch(url);
   if (!response.ok) {

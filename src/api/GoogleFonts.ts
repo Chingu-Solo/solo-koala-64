@@ -4,6 +4,7 @@ const API_KEY = process.env.REACT_APP_GOOGLE_FONTS_API_KEY;
 
 type Kind = string; //'webfonts#webfont'
 type Family = string;
+type Sort = 'alpha'|'date'|'popularity'|'style'|'trending';
 
 type Item = {
   kind: Kind,
@@ -28,13 +29,21 @@ export type GoogleFont = {
 }
 
 export default class GoogleFontsAPI {
+  sort: Sort  = 'popularity'
   request: string = (
-    `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`
+    `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=${this.sort}`
   );
 
-  async _getGoogleFonts(): GoogleFont[] {
+  async _getGoogleFonts(): Promise<GoogleFont[] | never> {
     const { kind, items } = await Get<FontsDeveloperAPI>(this.request);
-    return Promise 
+    return (
+      items && items.map( (item): GoogleFont  => {
+        return ({
+          'family': item.family,
+          'styleSheetURL': this.styleSheetURL(item)
+        });
+      })
+    );
   }
 
   styleSheetURL(item: Item): StyleSheetURL {
