@@ -1,39 +1,62 @@
 import React from 'react';
 import './App.css';
 
+import { FixedSizeList as List } from 'react-window';
 //import { fonts } from './fixtures/fonts';
 
-import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts'
+import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
 
-interface CardProps { 
-  fonts: GoogleFont,
+interface CardsProps { 
+  fonts: GoogleFont[] | null,
 }
 
-function Cards({ fonts }: CardProps) {
+interface CardProps { 
+  font: GoogleFont,
+}
+
+
+
+
+function Card({ font }: CardProps) {
+  return(
+    <div className="Card">
+      <p>{font.family}</p>
+      <div>
+        <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
+        <p style={{fontFamily: `'${font.family}', serif`}}>
+          {`display fonts Cards in ${font.family}`}
+        </p>
+      </div>
+    </div>    
+  );
+}
+
+function Cards({ fonts }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
   return(
-     <div className="Cards">
-      {fonts.map((font, key) => (
-          <p key={key}>{`display fonts Cards in ${font}`}</p>
+    <div className="Cards">
+      {fonts && fonts.map((font, key) => (
+        <Card font={font}/>
       ))}
     </div>    
   );
 } 
 
 
-interface AppState extends CardProps {
-  response: string;
+interface AppState extends CardsProps {
+  fontsAPI: GoogleFontsAPI,
 }
 
 export default class App extends React.Component {
   readonly state: AppState = {
-    fonts:  
-    response: '',
+    fontsAPI: new GoogleFontsAPI(),
+    fonts: null,  //or some default
   }
 
-  componentDidMount() {
-    this.getGoogleFonst(); 
+  async componentDidMount() {
+    const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
+    this.setState({ fonts })
   }
 
   render() {
@@ -43,9 +66,9 @@ export default class App extends React.Component {
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
+          tool box
         </div>
         <Cards fonts={this.state.fonts}/>
-        <p>{this.state.response}</p>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>

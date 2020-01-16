@@ -16,12 +16,12 @@ type Item = {
   lastModified: string,
 }
 
-type FontsDeveloperAPI = {
+export type FontsDeveloperAPI = {
   kind: Kind,
   items: Item[],
 }
 
-type StyleSheetURL = string | null;
+type StyleSheetURL = string;
 
 export type GoogleFont = {
   family: Family,

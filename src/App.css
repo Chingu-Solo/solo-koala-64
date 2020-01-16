@@ -1,5 +1,12 @@
+.Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+  color: #000;
+}
+
 .Cards {
-  background-color: #fff;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -10,7 +17,6 @@
 }
 
 .Tools {
-  background-color: #fff;
   display: flex;
   flex-direction: row;
   align-items: center;
