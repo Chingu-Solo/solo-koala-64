@@ -41,10 +41,9 @@ function Card({ font }: CardProps) {
 
 //Gird vs List switch
 function CardsRow({ index, style, data }: CardsRowProps) {
-  const font: GoogleFont = data[index];
   return (
     <div style={style}>
-      <Card font={font} />
+      <Card font={data[index]} />
     </div>
   );
 };
