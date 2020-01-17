@@ -23,11 +23,7 @@ interface CardProps {
   font: GoogleFont,
 }
 
-
-interface RowProps extends CardsProps {
-  index: number,
-  style: CSS.Properties | any, //TODO else ts complains
-}
+type CardsDisplay = 'grid' | 'list';
 
 
 function Card({ font }: CardProps) {
@@ -46,7 +42,7 @@ function Card({ font }: CardProps) {
 
 
 //Gird vs List switch
-function Row({ index, style, data }: RowProps) {
+function Row({ index=0, style, data }: RowProps) {
   return (
     <div style={style}>
       <Card font={data[index]} />
@@ -54,6 +50,13 @@ function Row({ index, style, data }: RowProps) {
   );
 };
 
+
+interface RowProps extends CardsProps {
+  //TODO give the typing some sense ;)
+  index?: number,
+  style?: CSS.Properties | any,
+  display?: CardsDisplay,
+}
 
 function Cards({ data }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
@@ -134,8 +137,6 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 ));
 
 
-type CardsDisplay = 'grid' | 'list';
-
 interface AppState {
   fontsAPI: GoogleFontsAPI,
   fonts: GoogleFont[] | null,
@@ -174,10 +175,7 @@ export default class App extends React.Component {
           </button>
         </div>
         <div className="Cards">
-          {fonts && <Cards data={fonts}/>}
-        </div>
-        <div className="Cards">
-          <Example />
+          {fonts && <Cards data={fonts} display={this.state.cardsDisplay}/>}
         </div>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
