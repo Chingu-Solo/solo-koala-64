@@ -42,7 +42,7 @@ function CardsRow({ index, style, data }: CardsRowProps) {
   const font: GoogleFont = data[index];
   return (
     <div style={style} key={index}>
-      <Card key={index} {...font} />
+      <Card key={index} font={font} />
     </div>
   );
 };
@@ -58,7 +58,7 @@ function Cards({ data }: CardsProps) {
             <List
               className="List"
               height={height}
-              itemCount={1000} // len(data)
+              itemCount={data.length}
               itemSize={150} // itemSize
               width={width}
               itemData={data}
@@ -71,7 +71,6 @@ function Cards({ data }: CardsProps) {
     </div>    
   );
 } 
-
 
 
 interface AppState {

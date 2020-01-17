@@ -35,7 +35,7 @@ export default class GoogleFontsAPI {
   );
 
   async _getGoogleFonts(): Promise<GoogleFont[] | never> {
-    const { kind, items } = await get<FontsDeveloperAPI>(this.request);
+    const { items } = await get<FontsDeveloperAPI>(this.request);
     return (
       items && items.map( (item: Item): GoogleFont  => {
         return ({
