@@ -72,6 +72,7 @@ function Row({ index=0, style, data }: RowProps) {
 const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
 const ROW_HEIGHT = 100;
+const COLUMN_COUNT = 4;
 
 interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
@@ -91,7 +92,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }: CellProps) => (
     }}
   >
     <Card 
-      font={data.fonts[columnIndex + rowIndex]} 
+      font={data.fonts[
+        Math.min(columnIndex + rowIndex, data.fonts.length-1)
+      ]} 
       input={data.input} 
     />
   </div>
@@ -136,11 +139,11 @@ function Cards({ data, cardsDisplay }: CardsProps) {
         : ({ height, width }) => (
             <Grid
               className="Grid"
-              columnCount={50}
+              columnCount={COLUMN_COUNT}
               columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
               height={height}
               innerElementType={innerElementType}
-              rowCount={100}
+              rowCount={Math.ceil(data.fonts.length/COLUMN_COUNT)}
               rowHeight={ROW_HEIGHT + GUTTER_SIZE}
               width={width}
               itemData={data}
