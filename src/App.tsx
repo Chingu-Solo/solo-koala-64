@@ -194,7 +194,7 @@ export default class App extends React.Component {
     } else {
       return (
         fonts && fonts.filter(
-          font => font.family.includes(searchText)
+          font => font.family.toLowerCase().includes(searchText.toLowerCase())
         )
       );
     }
