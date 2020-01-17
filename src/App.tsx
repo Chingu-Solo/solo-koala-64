@@ -17,6 +17,7 @@ import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
 interface CardsProps { 
   data: GoogleFont[],
+  //display?: CardsDisplay,
 }
 
 interface CardProps { 
@@ -41,7 +42,6 @@ function Card({ font }: CardProps) {
 }
 
 
-//Gird vs List switch
 function Row({ index=0, style, data }: RowProps) {
   return (
     <div style={style}>
@@ -49,35 +49,6 @@ function Row({ index=0, style, data }: RowProps) {
     </div>
   );
 };
-
-
-interface RowProps extends CardsProps {
-  //TODO give the typing some sense ;)
-  index?: number,
-  style?: CSS.Properties | any,
-  display?: CardsDisplay,
-}
-
-function Cards({ data }: CardsProps) {
-  //TODO Font Name, the sample text, and an add button
-  return(
-    <AutoSizer>
-      {({ height, width }) => (
-        <List
-          className="List"
-          height={height}
-          itemCount={data.length}
-          itemSize={150} // itemSize
-          width={width}
-          itemData={data}
-        >
-          {Row}
-        </List>
-      )}
-    </AutoSizer>
-  );
-} 
-
 
 const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
@@ -104,6 +75,34 @@ const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
     r{rowIndex}, c{columnIndex}
   </div>
 );
+
+
+interface RowProps extends CardsProps {
+  //TODO give the typing some sense ;)
+  index?: number,
+  style?: CSS.Properties | any,
+}
+
+function Cards({ data }: CardsProps) {
+  //TODO Font Name, the sample text, and an add button
+  return(
+    <AutoSizer>
+      {({ height, width }) => (
+        <List
+          className="List"
+          height={height}
+          itemCount={data.length}
+          itemSize={150} // itemSize
+          width={width}
+          itemData={data}
+        >
+          {Row}
+        </List>
+      )}
+    </AutoSizer>
+  );
+} 
+
 
 const Example = () => (
   <AutoSizer>
