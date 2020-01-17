@@ -75,8 +75,8 @@ function Cards({ data }: CardsProps) {
 
 
 const GUTTER_SIZE = 5;
-const COLUMN_WIDTH = 100;
-const ROW_HEIGHT = 35;
+const COLUMN_WIDTH = 250;
+const ROW_HEIGHT = 100;
 
 interface CellProps { //extends CardsProps {
   columnIndex: number, 
@@ -101,18 +101,22 @@ const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
 );
 
 const Example = () => (
-  <Grid
-    className="Grid"
-    columnCount={50}
-    columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
-    height={150}
-    innerElementType={innerElementType}
-    rowCount={100}
-    rowHeight={ROW_HEIGHT + GUTTER_SIZE}
-    width={300}
-  >
-    {Cell}
-  </Grid>
+  <AutoSizer>
+    {({ height, width }) => (
+      <Grid
+        className="Grid"
+        columnCount={50}
+        columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
+        height={height}
+        innerElementType={innerElementType}
+        rowCount={100}
+        rowHeight={ROW_HEIGHT + GUTTER_SIZE}
+        width={width}
+      >
+        {Cell}
+      </Grid>
+    )}
+  </AutoSizer>
 );
 
 const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) => (
@@ -127,16 +131,19 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
   />
 ));
 
+type CardsDisplay = 'grid' | 'list';
 
 interface AppState {
   fontsAPI: GoogleFontsAPI,
   fonts: GoogleFont[] | null,
+  cardsDisplay: CardsDisplay,
 }
 
 export default class App extends React.Component {
   readonly state: AppState = {
     fontsAPI: new GoogleFontsAPI(),
     fonts: null,  //or some default
+    cardsDisplay: 'grid',
   }
 
   async componentDidMount() {
@@ -157,6 +164,9 @@ export default class App extends React.Component {
         <div className="Cards">
           {fonts && <Cards data={fonts}/>}
         </div>
+        <div className="Cards">
+          <Example />
+        </div>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>
@@ -164,3 +174,4 @@ export default class App extends React.Component {
     );
   }
 }
+
