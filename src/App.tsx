@@ -159,7 +159,7 @@ interface AppState {
   fonts: Fonts,
   cardsDisplay: CardsDisplay,
   inputText: Input,
-  search: string
+  searchText: string
 }
 
 export default class App extends React.Component {
@@ -168,7 +168,7 @@ export default class App extends React.Component {
     fonts: null,  //or some default
     cardsDisplay: 'grid',
     inputText: '',
-    search: ''
+    searchText: ''
   }
 
   async componentDidMount() {
@@ -177,14 +177,14 @@ export default class App extends React.Component {
   }
 
   filteredFonts(): Fonts {
-    const search = this.state.search;
+    const searchText = this.state.searchText;
     const fonts = this.state.fonts;
-    if (!search) {
+    if (!searchText) {
       return fonts
     } else {
       return (
         fonts && fonts.filter(
-          font => font.family.includes(search)
+          font => font.family.includes(searchText)
         )
       );
     }
@@ -200,11 +200,11 @@ export default class App extends React.Component {
         </header>
         <div className="Tools">
           <TextInput 
-            placeHolder="type-something" 
+            placeHolder="search fonts" 
             changeHandler={e => this.setState({ searchText: e.target.value })}
           />
           <TextInput 
-            placeHolder="search fonts" 
+            placeHolder="type-something" 
             changeHandler={e => this.setState({ inputText: e.target.value })}
           />
           <button onClick={() => this.setState({ 
