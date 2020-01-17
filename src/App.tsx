@@ -14,19 +14,26 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
-interface CardsBase {
-  inputText: string,
+type Input = string;
+
+interface CardBase {
+  input: Input,
 }
 
-interface CardsContainer extends CardsBase {
+interface Data extends CardBase {
+  fonts: GoogleFont[],
+}
+
+interface ReactWindowComp {
+  // react-window requires to include all information in one {data} prop
   data: Data,
 }
 
-interface CardProps { 
+interface CardProps extends CardBase { 
   font: GoogleFont,
 }
 
-function Card({ font }: CardProps) {
+function Card({ font, input }: CardProps) {
   return(
     <div className="Card">
       <p>{font.family}</p>
@@ -40,9 +47,8 @@ function Card({ font }: CardProps) {
   );
 }
 
-type Data = GoogleFont[];
 
-interface StyledCardsContainer extends CardsContainer {
+interface StyledCardsContainer extends ReactWindowComp {
   style: CSS.Properties | any,
 }
 
@@ -54,7 +60,7 @@ interface RowProps extends StyledCardsContainer {
 function Row({ index=0, style, data }: RowProps) {
   return (
     <div style={style}>
-      <Card font={data[index]} />
+      <Card font={data.fonts[index]} input={data.input} />
     </div>
   );
 };
@@ -81,7 +87,10 @@ const Cell = ({ columnIndex, rowIndex, style, data }: CellProps) => (
       height: style.height - GUTTER_SIZE
     }}
   >
-    <Card font={data[columnIndex + rowIndex]} />
+    <Card 
+      font={data.fonts[columnIndex + rowIndex]} 
+      input={data.input} 
+    />
   </div>
 );
 
@@ -100,7 +109,7 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 
 type CardsDisplay = 'grid' | 'list';
 
-interface CardsProps extends CardsContainer { 
+interface CardsProps extends ReactWindowComp { 
   cardsDisplay: CardsDisplay,
 }
 
@@ -113,7 +122,7 @@ function Cards({ data, cardsDisplay }: CardsProps) {
            <List
               className="List"
               height={height}
-              itemCount={data.length}
+              itemCount={data.fonts.length}
               itemSize={150} // itemSize
               width={width}
               itemData={data}
@@ -142,10 +151,11 @@ function Cards({ data, cardsDisplay }: CardsProps) {
 }
 
 
-interface AppState extends CardsBase {
+interface AppState {
   fontsAPI: GoogleFontsAPI,
-  fonts: Data | null,
+  fonts: GoogleFont[] | null,
   cardsDisplay: CardsDisplay,
+  inputText: Input,
 }
 
 export default class App extends React.Component {
@@ -157,7 +167,7 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    const fonts: Data = await this.state.fontsAPI._getGoogleFonts();
+    const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
     this.setState({ fonts })
   }
 
@@ -187,9 +197,11 @@ export default class App extends React.Component {
         <div className="Cards">
         {fonts && 
           <Cards 
-            data={fonts} 
+            data={{
+              fonts, 
+              input: this.state.inputText
+            }} 
             cardsDisplay={this.state.cardsDisplay}
-
           />
         }
         </div>
