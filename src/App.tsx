@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, createRef } from 'react';
 //import ReactDOM from "react-dom";
 import './App.css';
 import CSS from 'csstype';
@@ -115,7 +115,7 @@ const Example = () => (
   </Grid>
 );
 
-const innerElementType = forwardRef(({ style, ...rest }, ref) => (
+const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) => (
   <div
     ref={ref}
     style={{
@@ -126,10 +126,6 @@ const innerElementType = forwardRef(({ style, ...rest }, ref) => (
     {...rest}
   />
 ));
-
-
-
-
 
 
 interface AppState {
