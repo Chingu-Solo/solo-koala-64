@@ -1,4 +1,4 @@
-import React, { forwardRef, createRef } from 'react';
+import React, { forwardRef } from 'react';
 //import ReactDOM from "react-dom";
 import './App.css';
 import CSS from 'csstype';
@@ -14,6 +14,13 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
+interface CardsBase {
+  inputText: string,
+}
+
+interface CardsContainer extends CardsBase {
+  data: Data,
+}
 
 interface CardProps { 
   font: GoogleFont,
@@ -34,10 +41,6 @@ function Card({ font }: CardProps) {
 }
 
 type Data = GoogleFont[];
-
-interface CardsContainer {
-  data: Data,
-}
 
 interface StyledCardsContainer extends CardsContainer {
   style: CSS.Properties | any,
@@ -98,14 +101,14 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 type CardsDisplay = 'grid' | 'list';
 
 interface CardsProps extends CardsContainer { 
-  display: CardsDisplay,
+  cardsDisplay: CardsDisplay,
 }
 
-function Cards({ data, display }: CardsProps) {
+function Cards({ data, cardsDisplay }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
   return(
     <AutoSizer>
-       {display === 'list'
+       {cardsDisplay === 'list'
          ? ({ height, width }) => (
            <List
               className="List"
@@ -139,7 +142,7 @@ function Cards({ data, display }: CardsProps) {
 }
 
 
-interface AppState {
+interface AppState extends CardsBase {
   fontsAPI: GoogleFontsAPI,
   fonts: Data | null,
   cardsDisplay: CardsDisplay,
@@ -150,6 +153,7 @@ export default class App extends React.Component {
     fontsAPI: new GoogleFontsAPI(),
     fonts: null,  //or some default
     cardsDisplay: 'grid',
+    inputText: '',
   }
 
   async componentDidMount() {
@@ -165,17 +169,29 @@ export default class App extends React.Component {
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
-        <button onClick={() => this.setState({ 
-          cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
-        })}>
-            {this.state.cardsDisplay === 'list'
-              ? <FaList />
-              : <FiGrid />
-            }
-        </button>
+          <input 
+            type="text" 
+            placeholder="type-something" 
+            name="typeSome"
+            onChange={e => this.setState({ inputText: e.target.value })}
+            />
+          <button onClick={() => this.setState({ 
+            cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
+          })}>
+              {this.state.cardsDisplay === 'list'
+                ? <FaList />
+                : <FiGrid />
+              }
+          </button>
         </div>
         <div className="Cards">
-          {fonts && <Cards data={fonts} display={this.state.cardsDisplay}/>}
+        {fonts && 
+          <Cards 
+            data={fonts} 
+            cardsDisplay={this.state.cardsDisplay}
+
+          />
+        }
         </div>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
