@@ -80,25 +80,30 @@ interface CellProps extends StyledCardsContainer {
 }
 
 
-const Cell = ({ columnIndex, rowIndex, style, data }: CellProps) => (
-  <div
-    className={"GridItem"}
-    style={{
-      ...style,
-      left: style.left + GUTTER_SIZE,
-      top: style.top + GUTTER_SIZE,
-      width: style.width - GUTTER_SIZE,
-      height: style.height - GUTTER_SIZE
-    }}
-  >
-    <Card 
-      font={data.fonts[
-        Math.min(columnIndex + rowIndex, data.fonts.length-1)
-      ]} 
-      input={data.input} 
-    />
-  </div>
-);
+function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
+  // TODO to mess less with (row, col) indices, 
+  // I just didnt display if too many cols
+  // to me, this seems little dirty ... 
+  return (
+    <div
+      className={"GridItem"}
+      style={{
+        ...style,
+        left: style.left + GUTTER_SIZE,
+        top: style.top + GUTTER_SIZE,
+        width: style.width - GUTTER_SIZE,
+        height: style.height - GUTTER_SIZE
+      }}
+    >
+      <Card 
+        font={data.fonts[
+          Math.min(columnIndex + rowIndex, data.fonts.length-1)
+        ]} 
+        input={data.input} 
+      />
+    </div>
+  );
+}
 
 const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) => (
   <div
