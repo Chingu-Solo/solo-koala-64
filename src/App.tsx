@@ -39,11 +39,13 @@ interface CardsContainer {
   data: Data,
 }
 
+interface StyledCardsContainer extends CardsContainer {
+  style: CSS.Properties | any,
+}
 
-interface RowProps extends CardsContainer {
+interface RowProps extends StyledCardsContainer {
   //TODO typing more specific ?
   index?: number,
-  style: CSS.Properties | any,
 }
 
 function Row({ index=0, style, data }: RowProps) {
@@ -59,14 +61,13 @@ const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
 const ROW_HEIGHT = 100;
 
-interface CellProps { //extends CardsContainer {
+interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
   rowIndex: number, 
-  style: CSS.Properties | any,
 }
 
 
-const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
+const Cell = ({ columnIndex, rowIndex, style, data }: CellProps) => (
   <div
     className={"GridItem"}
     style={{
@@ -77,7 +78,7 @@ const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
       height: style.height - GUTTER_SIZE
     }}
   >
-    r{rowIndex}, c{columnIndex}
+    <Card font={data[columnIndex + rowIndex]} />
   </div>
 );
 
@@ -127,6 +128,7 @@ function Cards({ data, display }: CardsProps) {
               rowCount={100}
               rowHeight={ROW_HEIGHT + GUTTER_SIZE}
               width={width}
+              itemData={data}
             >
               {Cell}
             </Grid>
