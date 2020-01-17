@@ -9,6 +9,7 @@ import {
 } from 'react-window';
 import { FaList } from 'react-icons/fa';
 import { FiGrid } from 'react-icons/fi';
+import { AiOutlineReload } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 import { TextInput } from './components/Tools';
@@ -224,6 +225,13 @@ export default class App extends React.Component {
               ? <FaList />
               : <FiGrid />
             }
+          </button>
+          <button onClick={() => this.setState({ 
+            cardsDisplay: 'grid',
+            searchText: '',
+            inputText: ''
+          })}>
+            <AiOutlineReload />
           </button>
         </div>
         <div className="Cards">
