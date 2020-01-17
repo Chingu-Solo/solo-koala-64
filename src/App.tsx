@@ -38,20 +38,51 @@ function Card({ font }: CardProps) {
   );
 }
 
+
+//Gird vs List switch
 function CardsRow({ index, style, data }: CardsRowProps) {
   const font: GoogleFont = data[index];
   return (
-    <div style={style} key={index}>
+    <div style={style}>
       <Card key={index} font={font} />
     </div>
   );
 };
 
 
+//***************************** rm
+function Row({ index, style, data }: CardsRowProps) {
+  const font: GoogleFont = data[index];
+  return (
+    <div style={style}>
+      Font {index}: {font.family}
+    </div>
+  );
+} 
+
+interface ExampleProps { data: any }
+const Example = ({ data }: ExampleProps) => (
+  <AutoSizer>
+    {({ height, width }) => (
+      <List
+        className="List"
+        height={height}
+        itemCount={data.length}
+        itemSize={35}
+        width={width}
+        itemData={data}
+      >
+        {Row}
+      </List>
+    )}
+  </AutoSizer>
+);
+//****************************
+
 function Cards({ data }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
   return(
-    <div className="Cards">
+    <div>
       {data && 
         <AutoSizer>
           {({ height, width }) => (
@@ -100,6 +131,7 @@ export default class App extends React.Component {
           tool box
         </div>
         {fonts && <Cards data={fonts}/>}
+        {fonts && <Example data={fonts}/>}
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>
