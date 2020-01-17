@@ -15,17 +15,9 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
 
-interface CardsProps { 
-  data: GoogleFont[],
-  //display?: CardsDisplay,
-}
-
 interface CardProps { 
   font: GoogleFont,
 }
-
-type CardsDisplay = 'grid' | 'list';
-
 
 function Card({ font }: CardProps) {
   return(
@@ -41,6 +33,16 @@ function Card({ font }: CardProps) {
   );
 }
 
+interface CardsContainer {
+  data: GoogleFont[],
+}
+
+interface RowProps extends CardsContainer {
+  //TODO typing more specific ?
+  index?: number,
+  style: CSS.Properties | any,
+}
+
 
 function Row({ index=0, style, data }: RowProps) {
   return (
@@ -54,7 +56,7 @@ const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
 const ROW_HEIGHT = 100;
 
-interface CellProps { //extends CardsProps {
+interface CellProps { //extends CardsContainer {
   columnIndex: number, 
   rowIndex: number, 
   style: CSS.Properties | any,
@@ -76,53 +78,6 @@ const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
   </div>
 );
 
-
-interface RowProps extends CardsProps {
-  //TODO give the typing some sense ;)
-  index?: number,
-  style?: CSS.Properties | any,
-}
-
-function Cards({ data }: CardsProps) {
-  //TODO Font Name, the sample text, and an add button
-  return(
-    <AutoSizer>
-      {({ height, width }) => (
-        <List
-          className="List"
-          height={height}
-          itemCount={data.length}
-          itemSize={150} // itemSize
-          width={width}
-          itemData={data}
-        >
-          {Row}
-        </List>
-      )}
-    </AutoSizer>
-  );
-} 
-
-
-const Example = () => (
-  <AutoSizer>
-    {({ height, width }) => (
-      <Grid
-        className="Grid"
-        columnCount={50}
-        columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
-        height={height}
-        innerElementType={innerElementType}
-        rowCount={100}
-        rowHeight={ROW_HEIGHT + GUTTER_SIZE}
-        width={width}
-      >
-        {Cell}
-      </Grid>
-    )}
-  </AutoSizer>
-);
-
 const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) => (
   <div
     ref={ref}
@@ -136,13 +91,54 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 ));
 
 
+type CardsDisplay = 'grid' | 'list';
+
+interface CardsProps extends CardsContainer { 
+  display: CardsDisplay,
+}
+
+function Cards({ data, display }: CardsProps) {
+  //TODO Font Name, the sample text, and an add button
+  return(
+    <AutoSizer>
+       {display === 'list'
+         ? ({ height, width }) => (
+           <List
+              className="List"
+              height={height}
+              itemCount={data.length}
+              itemSize={150} // itemSize
+              width={width}
+              itemData={data}
+            >
+              {Row}
+            </List>
+          )
+        : ({ height, width }) => (
+            <Grid
+              className="Grid"
+              columnCount={50}
+              columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
+              height={height}
+              innerElementType={innerElementType}
+              rowCount={100}
+              rowHeight={ROW_HEIGHT + GUTTER_SIZE}
+              width={width}
+            >
+              {Cell}
+            </Grid>
+          )
+      } 
+    </AutoSizer>
+  );
+}
+
+
 interface AppState {
   fontsAPI: GoogleFontsAPI,
   fonts: GoogleFont[] | null,
   cardsDisplay: CardsDisplay,
 }
-
-
 
 export default class App extends React.Component {
   readonly state: AppState = {
@@ -171,7 +167,7 @@ export default class App extends React.Component {
               ? <FaList />
               : <FiGrid />
             }
-          </button>
+        </button>
         </div>
         <div className="Cards">
           {fonts && <Cards data={fonts} display={this.state.cardsDisplay}/>}
@@ -183,4 +179,3 @@ export default class App extends React.Component {
     );
   }
 }
-
