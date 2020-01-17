@@ -2,13 +2,14 @@ import React from 'react';
 import './App.css';
 
 import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
 
 interface CardsProps { 
-  fonts: GoogleFont[] | null,
+  data: GoogleFont[],
 }
 
 interface CardProps { 
@@ -16,6 +17,11 @@ interface CardProps {
 }
 
 
+interface CardsRowProps extends CardsProps {
+  //TODO proper typing
+  index: any,
+  style: any,
+}
 
 
 function Card({ font }: CardProps) {
@@ -32,20 +38,45 @@ function Card({ font }: CardProps) {
   );
 }
 
-function Cards({ fonts }: CardsProps) {
+function CardsRow({ index, style, data }: CardsRowProps) {
+  const font: GoogleFont = data[index];
+  return (
+    <div style={style} key={index}>
+      <Card key={index} {...font} />
+    </div>
+  );
+};
+
+
+function Cards({ data }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
   return(
     <div className="Cards">
-      {fonts && fonts.map((font, key) => (
-        <Card font={font}/>
-      ))}
+      {data && 
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              className="List"
+              height={height}
+              itemCount={1000} // len(data)
+              itemSize={150} // itemSize
+              width={width}
+              itemData={data}
+            >
+              {CardsRow}
+            </List>
+          )}
+        </AutoSizer>
+      }
     </div>    
   );
 } 
 
 
-interface AppState extends CardsProps {
+
+interface AppState {
   fontsAPI: GoogleFontsAPI,
+  fonts: GoogleFont[] | null,
 }
 
 export default class App extends React.Component {
@@ -60,6 +91,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    const fonts = this.state.fonts;
     return (
       <div className="App">
         <header>
@@ -68,7 +100,7 @@ export default class App extends React.Component {
         <div className="Tools">
           tool box
         </div>
-        <Cards fonts={this.state.fonts}/>
+        {fonts && <Cards data={fonts}/>}
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>
