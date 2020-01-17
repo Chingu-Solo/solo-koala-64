@@ -33,16 +33,18 @@ function Card({ font }: CardProps) {
   );
 }
 
+type Data = GoogleFont[];
+
 interface CardsContainer {
-  data: GoogleFont[],
+  data: Data,
 }
+
 
 interface RowProps extends CardsContainer {
   //TODO typing more specific ?
   index?: number,
   style: CSS.Properties | any,
 }
-
 
 function Row({ index=0, style, data }: RowProps) {
   return (
@@ -51,6 +53,7 @@ function Row({ index=0, style, data }: RowProps) {
     </div>
   );
 };
+
 
 const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
@@ -136,7 +139,7 @@ function Cards({ data, display }: CardsProps) {
 
 interface AppState {
   fontsAPI: GoogleFontsAPI,
-  fonts: GoogleFont[] | null,
+  fonts: Data | null,
   cardsDisplay: CardsDisplay,
 }
 
@@ -148,7 +151,7 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
+    const fonts: Data = await this.state.fontsAPI._getGoogleFonts();
     this.setState({ fonts })
   }
 
