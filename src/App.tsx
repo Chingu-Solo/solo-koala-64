@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import CSS from 'csstype';
 
 import { FixedSizeList as List } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -18,9 +19,8 @@ interface CardProps {
 
 
 interface CardsRowProps extends CardsProps {
-  //TODO proper typing
-  index: any,
-  style: any,
+  index: number,
+  style: CSS.Properties | any, //TODO else ts complains
 }
 
 
@@ -50,17 +50,6 @@ function CardsRow({ index, style, data }: CardsRowProps) {
 };
 
 
-//***************************** rm
-function Row({ index, style, data }: CardsRowProps) {
-  const font: GoogleFont = data[index];
-  return (
-    <div style={style}>
-      Font {index}: {font.family}
-    </div>
-  );
-} 
-
-
 function Cards({ data }: CardsProps) {
   //TODO Font Name, the sample text, and an add button
   return(
@@ -74,7 +63,7 @@ function Cards({ data }: CardsProps) {
           width={width}
           itemData={data}
         >
-          {Row}
+          {CardsRow}
         </List>
       )}
     </AutoSizer>
@@ -108,7 +97,9 @@ export default class App extends React.Component {
         <div className="Tools">
           tool box
         </div>
-        {fonts && <Cards data={fonts}/>}
+        <div className="Cards">
+          {fonts && <Cards data={fonts}/>}
+        </div>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>
