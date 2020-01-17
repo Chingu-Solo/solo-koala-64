@@ -7,6 +7,7 @@ import {
   FixedSizeList as List,
   FixedSizeGrid as Grid
 } from 'react-window';
+import { FaBeer } from 'react-icons/fa';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 
@@ -131,6 +132,7 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
   />
 ));
 
+
 type CardsDisplay = 'grid' | 'list';
 
 interface AppState {
@@ -138,6 +140,8 @@ interface AppState {
   fonts: GoogleFont[] | null,
   cardsDisplay: CardsDisplay,
 }
+
+
 
 export default class App extends React.Component {
   readonly state: AppState = {
@@ -159,7 +163,9 @@ export default class App extends React.Component {
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
-          tool box
+          <button>
+            <FaBeer /> 
+          </button>
         </div>
         <div className="Cards">
           {fonts && <Cards data={fonts}/>}
