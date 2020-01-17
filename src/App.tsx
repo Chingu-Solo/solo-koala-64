@@ -11,7 +11,7 @@ import { FaList } from 'react-icons/fa';
 import { FiGrid } from 'react-icons/fi';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
-
+import { TextInput } from './components/Tools';
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
 
 type Input = string;
@@ -153,12 +153,13 @@ function Cards({ data, cardsDisplay }: CardsProps) {
   );
 }
 
-
+type Fonts = GoogleFont[] | null;
 interface AppState {
   fontsAPI: GoogleFontsAPI,
-  fonts: GoogleFont[] | null,
+  fonts: Fonts,
   cardsDisplay: CardsDisplay,
   inputText: Input,
+  search: string
 }
 
 export default class App extends React.Component {
@@ -167,6 +168,7 @@ export default class App extends React.Component {
     fonts: null,  //or some default
     cardsDisplay: 'grid',
     inputText: '',
+    search: ''
   }
 
   async componentDidMount() {
@@ -174,27 +176,44 @@ export default class App extends React.Component {
     this.setState({ fonts })
   }
 
-  render() {
+  filteredFonts(): Fonts {
+    const search = this.state.search;
     const fonts = this.state.fonts;
+    if (!search) {
+      return fonts
+    } else {
+      return (
+        fonts && fonts.filter(
+          font => font.family.includes(search)
+        )
+      );
+    }
+  }
+
+  render() {
+    const fonts = this.filteredFonts();
+    // all fonts stay in the state, and no new API request needed
     return (
       <div className="App">
         <header>
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
-          <input 
-            type="text" 
-            placeholder="type-something" 
-            name="typeSome"
-            onChange={e => this.setState({ inputText: e.target.value })}
-            />
+          <TextInput 
+            placeHolder="type-something" 
+            changeHandler={e => this.setState({ searchText: e.target.value })}
+          />
+          <TextInput 
+            placeHolder="search fonts" 
+            changeHandler={e => this.setState({ inputText: e.target.value })}
+          />
           <button onClick={() => this.setState({ 
             cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
           })}>
-              {this.state.cardsDisplay === 'list'
-                ? <FaList />
-                : <FiGrid />
-              }
+            {this.state.cardsDisplay === 'list'
+              ? <FaList />
+              : <FiGrid />
+            }
           </button>
         </div>
         <div className="Cards">
