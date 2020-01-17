@@ -7,7 +7,8 @@ import {
   FixedSizeList as List,
   FixedSizeGrid as Grid
 } from 'react-window';
-import { FaBeer } from 'react-icons/fa';
+import { FaList } from 'react-icons/fa';
+import { FiGrid } from 'react-icons/fi';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 
@@ -163,8 +164,13 @@ export default class App extends React.Component {
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
-          <button>
-            <FaBeer /> 
+        <button onClick={() => this.setState({ 
+          cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
+        })}>
+            {this.state.cardsDisplay === 'list'
+              ? <FaList />
+              : <FiGrid />
+            }
           </button>
         </div>
         <div className="Cards">
