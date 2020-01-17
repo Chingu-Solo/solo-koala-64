@@ -210,11 +210,13 @@ export default class App extends React.Component {
           <p>Google Fonts</p>
         </header>
         <div className="Tools">
-          <TextInput 
+          <TextInput
+            value={this.state.searchText}
             placeHolder="search fonts" 
             changeHandler={e => this.setState({ searchText: e.target.value })}
           />
           <TextInput 
+            value={this.state.inputText}
             placeHolder="type-something" 
             changeHandler={e => this.setState({ inputText: e.target.value })}
           />
@@ -229,7 +231,7 @@ export default class App extends React.Component {
           <button onClick={() => this.setState({ 
             cardsDisplay: 'grid',
             searchText: '',
-            inputText: ''
+            inputText: '',
           })}>
             <AiOutlineReload />
           </button>
