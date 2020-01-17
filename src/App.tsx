@@ -34,13 +34,16 @@ interface CardProps extends CardBase {
 }
 
 function Card({ font, input }: CardProps) {
+  const defaultText: string = (
+    'Then came the night of the first falling star'
+  );
   return(
     <div className="Card">
       <p>{font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
         <p style={{fontFamily: `'${font.family}', serif`}}>
-          {`display fonts Cards in ${font.family}`}
+          {input || defaultText}
         </p>
       </div>
     </div>    
