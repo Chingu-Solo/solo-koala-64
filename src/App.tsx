@@ -84,6 +84,8 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
   // TODO to mess less with (row, col) indices, 
   // I just didnt display if too many cols
   // to me, this seems little dirty ... 
+  const i: number = Math.min(columnIndex + rowIndex, data.fonts.length-1);
+  const displayI: boolean = (columnIndex + rowIndex) < data.fonts.length;
   return (
     <div
       className={"GridItem"}
@@ -95,12 +97,12 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
         height: style.height - GUTTER_SIZE
       }}
     >
-      <Card 
-        font={data.fonts[
-          Math.min(columnIndex + rowIndex, data.fonts.length-1)
-        ]} 
-        input={data.input} 
-      />
+      {displayI &&
+        <Card 
+          font={data.fonts[i]} 
+          input={data.input} 
+        />
+      }
     </div>
   );
 }
