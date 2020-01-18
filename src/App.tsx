@@ -110,7 +110,7 @@ function Row({ index=0, style, data }: RowProps) {
 const GUTTER_SIZE = 5;
 const COLUMN_WIDTH = 250;
 const ROW_HEIGHT = 100;
-const COLUMN_COUNT = 4;
+const COLUMN_COUNT = 3;
 
 interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
@@ -119,11 +119,9 @@ interface CellProps extends StyledCardsContainer {
 
 
 function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
-  // TODO to mess less with (row, col) indices, 
-  // I just didnt display if too many cols
-  // to me, this seems little dirty ... 
-  const i: number = Math.min(columnIndex + rowIndex, data.fonts.length-1);
-  const displayI: boolean = (columnIndex + rowIndex) < data.fonts.length;
+  const listIndex = columnIndex*COLUMN_COUNT + rowIndex;
+  const i: number = Math.min(listIndex, data.fonts.length-1);
+  const displayI: boolean = listIndex < data.fonts.length;
   return (
     <div
       className={"GridItem"}
@@ -170,6 +168,7 @@ interface CardsProps extends ReactWindowComp {
 class Cards extends React.Component<CardsProps> {
   //TODO Font Name, the sample text, and an add button
   listRef: any = React.createRef();
+  gridRef: any = React.createRef();
   render () {
     return(
       <Fragment>
@@ -177,8 +176,13 @@ class Cards extends React.Component<CardsProps> {
         <button 
           onClick={() => {
             if (this.props.cardsDisplay === 'list') {
+              this.gridRef.current.scrollToItem({
+                align: "start",
+                columnIndex: 0,
+                rowIndex: 0,
+              });
             } else {
-            this.listRef.current.scrollToItem(0, 'start');
+              this.listRef.current.scrollToItem(0, 'start');
             }
           }}
           title="Scroll to top"
@@ -199,6 +203,7 @@ class Cards extends React.Component<CardsProps> {
                   rowHeight={ROW_HEIGHT + GUTTER_SIZE}
                   width={width}
                   itemData={this.props.data}
+                  ref={this.gridRef}
                 >
                   {Cell}
                 </Grid>
