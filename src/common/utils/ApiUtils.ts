@@ -1,11 +1,10 @@
 export async function get<T>(url: string): Promise<T | never> {
-  let response: Response = await fetch(url);
+  const response: Response = await fetch(url);
   if (!response.ok) {
-    //TODO alert(response.statusText);
+    alert(response.statusText);
     throw new Error(response.statusText);
   }
-  let data = await response.json();
-  return data;
+  return await response.json();
 }
 
 

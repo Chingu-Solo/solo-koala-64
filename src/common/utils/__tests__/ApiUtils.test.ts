@@ -18,8 +18,9 @@ import { get } from '../ApiUtils'
 //Security, authorization, and permission tests (which are out of the scope of this post)
 
 
-test('get() with invalid request string', () => {
-  const invalidRequest: string = 'this-request-is-invalid';
-  expect(() => {get(invalidRequest)}).toThrow(Error);
-});
+//test('get() with invalid request string', () => {
+//  const invalidRequest: string = 'this-request-is-invalid';
+//  expect(() => {get(invalidRequest)}).toThrow(Error);
+//});
+
 
