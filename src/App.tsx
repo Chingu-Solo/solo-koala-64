@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 //import ReactDOM from "react-dom";
 import './App.css';
 import CSS from 'csstype';
@@ -167,41 +167,60 @@ interface CardsProps extends ReactWindowComp {
   cardsDisplay: CardsDisplay,
 }
 
-function Cards({ data, cardsDisplay }: CardsProps) {
+class Cards extends React.Component<CardsProps> {
   //TODO Font Name, the sample text, and an add button
-  return(
-    <AutoSizer>
-       {cardsDisplay === 'list'
-        ? ({ height, width }) => (
-            <Grid
-              className="Grid"
-              columnCount={COLUMN_COUNT}
-              columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
-              height={height}
-              innerElementType={innerElementType}
-              rowCount={Math.ceil(data.fonts.length/COLUMN_COUNT)}
-              rowHeight={ROW_HEIGHT + GUTTER_SIZE}
-              width={width}
-              itemData={data}
-            >
-              {Cell}
-            </Grid>
-           )
-         : ({ height, width }) => (
-           <List
-              className="List"
-              height={height}
-              itemCount={data.fonts.length}
-              itemSize={150} // itemSize
-              width={width}
-              itemData={data}
-            >
-              {Row}
-            </List>
-          )
-      } 
-    </AutoSizer>
-  );
+  listRef: any = React.createRef();
+  render () {
+    return(
+      <Fragment>
+        <div>
+        <button 
+          onClick={() => {
+            if (this.props.cardsDisplay === 'list') {
+            } else {
+            this.listRef.current.scrollToItem(0, 'start');
+            }
+          }}
+          title="Scroll to top"
+        >
+          <TiArrowUp /> 
+        </button>
+      </div>
+        <AutoSizer>
+           {this.props.cardsDisplay === 'list'
+             ? ({ height, width }) => (
+                <Grid
+                  className="Grid"
+                  columnCount={COLUMN_COUNT}
+                  columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
+                  height={height}
+                  innerElementType={innerElementType}
+                  rowCount={Math.ceil(this.props.data.fonts.length/COLUMN_COUNT)}
+                  rowHeight={ROW_HEIGHT + GUTTER_SIZE}
+                  width={width}
+                  itemData={this.props.data}
+                >
+                  {Cell}
+                </Grid>
+               )
+             : ({ height, width }) => (
+               <List
+                  className="List"
+                  height={height}
+                  itemCount={this.props.data.fonts.length}
+                  itemSize={150} // itemSize
+                  width={width}
+                  itemData={this.props.data}
+                  ref={this.listRef}
+                >
+                  {Row}
+                </List>
+              )
+          } 
+        </AutoSizer>
+      </Fragment>
+    );
+  }
 }
 
 type Fonts = GoogleFont[] | null;
