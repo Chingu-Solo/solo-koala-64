@@ -250,7 +250,8 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
-    this.setState({ fonts, bakFonts: [...fonts] })
+    this.setState({ fonts })
+    fonts && this.setState({ bakFonts: [...fonts] })
   }
 
   filteredFonts(): Fonts {

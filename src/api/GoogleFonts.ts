@@ -14,6 +14,7 @@ type Item = {
   subsets: string[],
   version: string,
   lastModified: string,
+  files: any 
 }
 
 export type FontsDeveloperAPI = {

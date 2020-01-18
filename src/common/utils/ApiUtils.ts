@@ -1,10 +1,15 @@
-export async function get<T>(url: string): Promise<T | never> {
-  const response: Response = await fetch(url);
+export function checkResponse(response: Response | any): Response { // any because cannot setup proper Response Mock
+  // I could not setup working test for async-await with throw()
   if (!response.ok) {
-    alert(response.statusText);
+    //alert(response.statusText);
     throw new Error(response.statusText);
   }
-  return await response.json();
+  return response;
+}
+
+export async function get<T>(url: string): Promise<T | never> {
+  const response: Response = await fetch(url);
+  return await checkResponse(response).json();
 }
 
 

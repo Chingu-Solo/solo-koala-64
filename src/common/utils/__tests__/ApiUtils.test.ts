@@ -1,9 +1,7 @@
-import { get } from '../ApiUtils'
+import { get, checkResponse } from '../ApiUtils'
 
-//TODO
 //https://www.google.com/amp/s/www.sisense.com/blog/rest-api-testing-strategy-what-exactly-should-you-test/%3famp
 
-//
 //1. Verify correct HTTP status code
 //2. Verify response payload. - compare to fixtures 
 //3. Verify response headers. HTTP server headers have implications on both security and performance.
@@ -17,10 +15,30 @@ import { get } from '../ApiUtils'
 //Destructive testing
 //Security, authorization, and permission tests (which are out of the scope of this post)
 
+describe('checkResponse', () => {
+  it('throws Error with invalid response object',()  => {
+    const mockInvalidResponse = { 
+      'ok': false, 
+      statusText: 'Response NOT OK' 
+    }
+    expect(() => {checkResponse(mockInvalidResponse)}).toThrow();
+  });
 
-//test('get() with invalid request string', () => {
-//  const invalidRequest: string = 'this-request-is-invalid';
-//  expect(() => {get(invalidRequest)}).toThrow(Error);
+  it('returns a the Response object if valid',() => {
+    expect(checkResponse(new Response()).ok).toBe(true);
+  });
+});
+
+//TODO would like to test for throw behaviour upon invalid fetch('invalid request')
+//describe('get', () => {
+//  it('get throws Error with invalid request string', done => {
+//    const mockSuccessResponse = {} //new Response();
+//    const mockJsonPromise = Promise.resolve(mockSuccessResponse);
+//
+//    const invalidRequest: string = 'this-request-is-invalid';
+//
+//  expect(() => {get(invalidRequest)}).toThrow();
+//  done();
 //});
-
+//  });
 

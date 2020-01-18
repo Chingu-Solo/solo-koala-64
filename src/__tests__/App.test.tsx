@@ -17,27 +17,28 @@ describe('App', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('fetches data from server when server returns a successful response', done => { // 1
-    const mockSuccessResponse = {};
-    const mockJsonPromise = Promise.resolve(mockSuccessResponse); // 2
-    const mockFetchPromise = Promise.resolve({ // 3
+  it('fetches data from server when server returns a successful response', done => { // call done() when Promise resolved 
+    const API_KEY = process.env.REACT_APP_GOOGLE_FONTS_API_KEY;
+    const request: string = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`
+    const mockSuccessResponse = {} //new Response();
+    const mockJsonPromise = Promise.resolve(mockSuccessResponse);
+    const mockFetchPromise = Promise.resolve({
       json: () => mockJsonPromise,
     });
-    jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); // 4
+    jest.spyOn(global, 'fetch').mockImplementation(() => mockSuccessResponse);
     
-    const wrapper = shallow(<ExampleComponent />); // 5
-                            
+    const wrapper: any = render(<App />);
     expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith('https://url-of-your-server.com/example/json');
+    expect(global.fetch).toHaveBeenCalledWith(request);
 
-    process.nextTick(() => { // 6
-      expect(wrapper.state()).toEqual({
-        // ... assert the set state
-      });
-
-      global.fetch.mockClear(); // 7
-      done(); // 8
-    });
+      done();
+      //    process.nextTick(() => {
+      //      expect(wrapper.sta).toEqual({
+      //        // ... assert the set state
+      //      });
+      //
+      //      global.fetch.mockClear();
+      //    });
   });
 });
 
