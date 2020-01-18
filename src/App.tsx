@@ -7,18 +7,22 @@ import {
   FixedSizeList as List,
   FixedSizeGrid as Grid
 } from 'react-window';
-import { FaList } from 'react-icons/fa';
+import { FaList, FaRegWindowClose } from 'react-icons/fa';
 import { FiGrid } from 'react-icons/fi';
-import { AiOutlineReload } from 'react-icons/ai';
+import { TiArrowUp } from 'react-icons/ti';
+import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 import { TextInput } from './components/Tools';
 import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
+import { EventIdHandler } from './common/types';
 
 type Input = string;
 
 interface CardBase {
   input: Input,
+  clickRemoveHandler: EventIdHandler
+  clickToTopHandler: EventIdHandler
 }
 
 interface Data extends CardBase {
@@ -32,14 +36,41 @@ interface ReactWindowComp {
 
 interface CardProps extends CardBase { 
   font: GoogleFont,
+  listId: number
 }
 
-function Card({ font, input }: CardProps) {
+function Card({ 
+  font, 
+  input, 
+  clickRemoveHandler, 
+  clickToTopHandler, 
+  listId 
+}: CardProps) {
   const defaultText: string = (
     'Then came the night of the first falling star'
   );
   return(
     <div className="Card">
+      <div className="Tools">
+        <button 
+          onClick={() => {}}
+          title="Select this font"
+        >
+          <AiOutlineSelect /> 
+        </button>
+        <button 
+          onClick={() => clickToTopHandler(listId)}
+          title="Move font to top"
+        >
+          <TiArrowUp /> 
+        </button>
+        <button 
+          onClick={() => clickRemoveHandler(listId)}
+          title="Remove Font (! New Http Request needed to redo)"
+        >
+          <FaRegWindowClose /> 
+        </button>
+      </div>
       <p>{font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
@@ -64,7 +95,13 @@ interface RowProps extends StyledCardsContainer {
 function Row({ index=0, style, data }: RowProps) {
   return (
     <div style={style}>
-      <Card font={data.fonts[index]} input={data.input} />
+      <Card 
+        font={data.fonts[index]} 
+        input={data.input} 
+        clickRemoveHandler={data.clickRemoveHandler}
+        clickToTopHandler={data.clickToTopHandler}
+        listId={index}
+      />
     </div>
   );
 };
@@ -102,6 +139,9 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
         <Card 
           font={data.fonts[i]} 
           input={data.input} 
+          clickRemoveHandler={data.clickRemoveHandler}
+          clickToTopHandler={data.clickToTopHandler}
+          listId={i}
         />
       }
     </div>
@@ -132,19 +172,7 @@ function Cards({ data, cardsDisplay }: CardsProps) {
   return(
     <AutoSizer>
        {cardsDisplay === 'list'
-         ? ({ height, width }) => (
-           <List
-              className="List"
-              height={height}
-              itemCount={data.fonts.length}
-              itemSize={150} // itemSize
-              width={width}
-              itemData={data}
-            >
-              {Row}
-            </List>
-          )
-        : ({ height, width }) => (
+        ? ({ height, width }) => (
             <Grid
               className="Grid"
               columnCount={COLUMN_COUNT}
@@ -158,6 +186,18 @@ function Cards({ data, cardsDisplay }: CardsProps) {
             >
               {Cell}
             </Grid>
+           )
+         : ({ height, width }) => (
+           <List
+              className="List"
+              height={height}
+              itemCount={data.fonts.length}
+              itemSize={150} // itemSize
+              width={width}
+              itemData={data}
+            >
+              {Row}
+            </List>
           )
       } 
     </AutoSizer>
@@ -168,6 +208,7 @@ type Fonts = GoogleFont[] | null;
 interface AppState {
   fontsAPI: GoogleFontsAPI,
   fonts: Fonts,
+  bakFonts: Fonts,
   cardsDisplay: CardsDisplay,
   inputText: Input,
   searchText: string
@@ -176,15 +217,16 @@ interface AppState {
 export default class App extends React.Component {
   readonly state: AppState = {
     fontsAPI: new GoogleFontsAPI(),
-    fonts: null,  //or some default
-    cardsDisplay: 'grid',
+    fonts: null,  //or maybe set some default
+    bakFonts: null, // backup to reset without request after messing with state
+    cardsDisplay: 'list',
     inputText: '',
     searchText: ''
   }
 
   async componentDidMount() {
     const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
-    this.setState({ fonts })
+    this.setState({ fonts, bakFonts: [...fonts] })
   }
 
   filteredFonts(): Fonts {
@@ -200,6 +242,17 @@ export default class App extends React.Component {
       );
     }
   }
+
+  resetState = () => this.setState({ 
+    cardsDisplay: 'list',
+    searchText: '',
+    inputText: '',
+    fonts: this.state.bakFonts, //because we messed with state
+  });
+
+  setListOrGrid = () => this.setState({
+    cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
+  });
 
   render() {
     const fonts = this.filteredFonts();
@@ -220,32 +273,45 @@ export default class App extends React.Component {
             placeHolder="type-something" 
             changeHandler={e => this.setState({ inputText: e.target.value })}
           />
-          <button onClick={() => this.setState({ 
-            cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
-          })}>
+          <button 
+            onClick={this.setListOrGrid}
+            title={`View as ${this.state.cardsDisplay}`}
+          >
             {this.state.cardsDisplay === 'list'
               ? <FaList />
               : <FiGrid />
             }
           </button>
-          <button onClick={() => this.setState({ 
-            cardsDisplay: 'grid',
-            searchText: '',
-            inputText: '',
-          })}>
+          <button 
+            onClick={this.resetState}
+            title="Reset"
+          >
             <AiOutlineReload />
           </button>
         </div>
         <div className="Cards">
-        {fonts && 
-          <Cards 
-            data={{
-              fonts, 
-              input: this.state.inputText
-            }} 
-            cardsDisplay={this.state.cardsDisplay}
-          />
-        }
+          {fonts && 
+            <Cards 
+              data={{
+                fonts, 
+                input: this.state.inputText,
+                clickRemoveHandler: listId => {
+                  //if (sureFonts.indexOf(listId) !== -1) { //TODO type problem
+                  if (fonts.length > listId) {
+                    fonts.splice(listId, 1);
+                    this.setState({ fonts: fonts });
+                  }
+                },
+                clickToTopHandler: listId => {
+                  if (fonts.length > listId) {
+                    const newTop = fonts.splice(listId, 1)[0];
+                    this.setState({ fonts: [newTop, ...fonts]});
+                  }
+                }
+              }} 
+              cardsDisplay={this.state.cardsDisplay}
+            />
+          }
         </div>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
