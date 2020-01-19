@@ -3,10 +3,7 @@ import React, { forwardRef, Fragment } from 'react';
 import './App.css';
 import CSS from 'csstype';
 
-import { 
-  FixedSizeList as List,
-  FixedSizeGrid as Grid
-} from 'react-window';
+import { FixedSizeGrid as Grid } from 'react-window';
 import { FaList, FaRegWindowClose } from 'react-icons/fa';
 import { FiGrid } from 'react-icons/fi';
 import { TiArrowUp } from 'react-icons/ti';
@@ -166,8 +163,6 @@ interface CardsProps extends ReactWindowComp {
 }
 
 class Cards extends React.Component<CardsProps> {
-  //TODO Font Name, the sample text, and an add button
-  listRef: any = React.createRef();
   gridRef: any = React.createRef();
 
   render () {
@@ -177,53 +172,34 @@ class Cards extends React.Component<CardsProps> {
           <button
             className="ScrollToTop"
             onClick={() => {
-              if (this.props.cardsDisplay === 'list') {
-                this.gridRef.current.scrollToItem({
-                  align: "start",
-                  columnIndex: 0,
-                  rowIndex: 0,
-                });
-              } else {
-                this.listRef.current.scrollToItem(0, 'start');
-              }
-          }}
-          title="Scroll to top"
-        >
-          <TiArrowUp /> 
-        </button>
-      </div>
+              this.gridRef.current.scrollToItem({
+                align: "start",
+                columnIndex: 0,
+                rowIndex: 0,
+              });
+            }}
+            title="Scroll to top"
+          >
+            <TiArrowUp /> 
+          </button>
+        </div>
         <AutoSizer>
-           {this.props.cardsDisplay === 'list'
-             ? ({ height, width }) => (
-                <Grid
-                  className="Grid"
-                  columnCount={COLUMN_COUNT}
-                  columnWidth={width / COLUMN_COUNT + GUTTER_SIZE}
-                  height={height}
-                  innerElementType={innerElementType}
-                  rowCount={Math.ceil(this.props.data.fonts.length/COLUMN_COUNT)}
-                  rowHeight={ROW_HEIGHT + GUTTER_SIZE}
-                  width={width}
-                  itemData={this.props.data}
-                  ref={this.gridRef}
-                >
-                  {Cell}
-                </Grid>
-               )
-             : ({ height, width }) => (
-               <List
-                  className="List"
-                  height={height}
-                  itemCount={this.props.data.fonts.length}
-                  itemSize={150} // itemSize
-                  width={width}
-                  itemData={this.props.data}
-                  ref={this.listRef}
-                >
-                  {Row}
-                </List>
-              )
-          } 
+          {({ height, width }) => (
+            <Grid
+              className="Grid"
+              columnCount={COLUMN_COUNT}
+              columnWidth={width / COLUMN_COUNT + GUTTER_SIZE}
+              height={height}
+              innerElementType={innerElementType}
+              rowCount={Math.ceil(this.props.data.fonts.length/COLUMN_COUNT)}
+              rowHeight={ROW_HEIGHT + GUTTER_SIZE}
+              width={width}
+              itemData={this.props.data}
+              ref={this.gridRef}
+            >
+              {Cell}
+            </Grid>
+          )}
         </AutoSizer>
       </Fragment>
     );
