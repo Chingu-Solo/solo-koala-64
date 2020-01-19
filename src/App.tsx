@@ -9,11 +9,14 @@ import { FiGrid } from 'react-icons/fi';
 import { TiArrowUp } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import classNames from 'classnames'
+import classNames from 'classnames';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
+
 
 const COLUMN_COUNT = 3;
 const GUTTER_SIZE = 5;
@@ -75,7 +78,10 @@ function Card({
       <p>{font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
-        <div style={{fontFamily: `'${font.family}', serif`}}>
+        <div style={{
+          fontFamily: `'${font.family}', serif`,
+          fontSize: 24
+        }}>
           {input || defaultText}
         </div>
       </div>
@@ -263,6 +269,31 @@ export default class App extends React.Component {
     columnCount: this.state.columnCount === 1 ? COLUMN_COUNT: 1
   });
 
+
+fontOptions: any = 8, 12, 14, 20, 24, 32, 40
+
+options: any = [
+  { value: 'one', label: 'One' },
+  { value: 'two', label: 'Two', className: 'myOptionClassName' },
+  {
+   type: 'group', name: 'group1', items: [
+     { value: 'three', label: 'Three', className: 'myOptionClassName' },
+     { value: 'four', label: 'Four' }
+   ]
+  },
+  {
+   type: 'group', name: 'group2', items: [
+     { value: 'five', label: 'Five' },
+     { value: 'six', label: 'Six' }
+   ]
+  }
+];
+
+
+
+defaultOption = this.options[0]
+
+
   render() {
     const fonts = this.filteredFonts();
     // all fonts stay in the state, and no new API request needed
@@ -291,6 +322,18 @@ export default class App extends React.Component {
               : <FaList />
             }
           </button>
+          <Dropdown 
+            options={this.options} 
+            onChange={(e: any): React.ChangeEvent => e._onSelect}
+            value={this.defaultOption} 
+            placeholder="Select an option" 
+          />
+          <Dropdown 
+            options={this.options} 
+            onChange={(e: any): React.ChangeEvent => e._onSelect}
+            value={this.defaultOption} 
+            placeholder="Select an option" 
+          />
           <button 
             onClick={this.resetState}
             title="Reset"
