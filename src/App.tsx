@@ -12,7 +12,8 @@ import { FiGrid } from 'react-icons/fi';
 import { TiArrowUp } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
-//import { fonts } from './fixtures/fonts';
+import classNames from 'classnames'
+
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
@@ -108,9 +109,8 @@ function Row({ index=0, style, data }: RowProps) {
 
 
 const GUTTER_SIZE = 5;
-const COLUMN_WIDTH = 250;
 const ROW_HEIGHT = 100;
-const COLUMN_COUNT = 3;
+const COLUMN_COUNT = 1;
 
 interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
@@ -169,21 +169,23 @@ class Cards extends React.Component<CardsProps> {
   //TODO Font Name, the sample text, and an add button
   listRef: any = React.createRef();
   gridRef: any = React.createRef();
+
   render () {
     return(
       <Fragment>
         <div>
-        <button 
-          onClick={() => {
-            if (this.props.cardsDisplay === 'list') {
-              this.gridRef.current.scrollToItem({
-                align: "start",
-                columnIndex: 0,
-                rowIndex: 0,
-              });
-            } else {
-              this.listRef.current.scrollToItem(0, 'start');
-            }
+          <button
+            className="ScrollToTop"
+            onClick={() => {
+              if (this.props.cardsDisplay === 'list') {
+                this.gridRef.current.scrollToItem({
+                  align: "start",
+                  columnIndex: 0,
+                  rowIndex: 0,
+                });
+              } else {
+                this.listRef.current.scrollToItem(0, 'start');
+              }
           }}
           title="Scroll to top"
         >
@@ -196,7 +198,7 @@ class Cards extends React.Component<CardsProps> {
                 <Grid
                   className="Grid"
                   columnCount={COLUMN_COUNT}
-                  columnWidth={COLUMN_WIDTH + GUTTER_SIZE}
+                  columnWidth={width / COLUMN_COUNT + GUTTER_SIZE}
                   height={height}
                   innerElementType={innerElementType}
                   rowCount={Math.ceil(this.props.data.fonts.length/COLUMN_COUNT)}
@@ -286,7 +288,7 @@ export default class App extends React.Component {
         <header>
           <p>Google Fonts</p>
         </header>
-        <div className="Tools">
+        <div className={classNames("Tools", "ToolBar")}>
           <TextInput
             value={this.state.searchText}
             placeHolder="search fonts" 
