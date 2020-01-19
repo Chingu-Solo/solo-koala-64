@@ -15,6 +15,8 @@ import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
 
+const COLUMN_COUNT = 3;
+
 type Input = string;
 
 interface CardBase {
@@ -107,7 +109,6 @@ function Row({ index=0, style, data }: RowProps) {
 
 const GUTTER_SIZE = 5;
 const ROW_HEIGHT = 100;
-const COLUMN_COUNT = 1;
 
 interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
@@ -156,16 +157,15 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 ));
 
 
-type CardsDisplay = 'grid' | 'list';
-
 interface CardsProps extends ReactWindowComp { 
-  cardsDisplay: CardsDisplay,
+  columnCount: number,
 }
 
 class Cards extends React.Component<CardsProps> {
   gridRef: any = React.createRef();
 
   render () {
+    const columnCount = this.props.columnCount;
     return(
       <Fragment>
         <div>
@@ -187,11 +187,11 @@ class Cards extends React.Component<CardsProps> {
           {({ height, width }) => (
             <Grid
               className="Grid"
-              columnCount={COLUMN_COUNT}
-              columnWidth={width / COLUMN_COUNT + GUTTER_SIZE}
+              columnCount={columnCount}
+              columnWidth={width / columnCount + GUTTER_SIZE}
               height={height}
               innerElementType={innerElementType}
-              rowCount={Math.ceil(this.props.data.fonts.length/COLUMN_COUNT)}
+              rowCount={Math.ceil(this.props.data.fonts.length/columnCount)}
               rowHeight={ROW_HEIGHT + GUTTER_SIZE}
               width={width}
               itemData={this.props.data}
@@ -210,7 +210,7 @@ type Fonts = GoogleFont[] | null;
 interface AppState {
   fonts: Fonts,
   bakFonts: Fonts,
-  cardsDisplay: CardsDisplay,
+  columnCount: number,
   inputText: Input,
   searchText: string
 }
@@ -219,7 +219,7 @@ export default class App extends React.Component {
   readonly state: AppState = {
     fonts: null,  //or maybe set some default
     bakFonts: null, // backup to reset without request after messing with state
-    cardsDisplay: 'list',
+    columnCount: COLUMN_COUNT,
     inputText: '',
     searchText: ''
   }
@@ -245,7 +245,7 @@ export default class App extends React.Component {
   }
 
   resetState = () => this.setState({ 
-    cardsDisplay: 'list',
+    columnCount: COLUMN_COUNT,
     searchText: '',
     inputText: '',
     fonts: this.state.bakFonts, 
@@ -253,7 +253,7 @@ export default class App extends React.Component {
   });
 
   setListOrGrid = () => this.setState({
-    cardsDisplay: this.state.cardsDisplay === 'list' ? 'grid': 'list'
+    columnCount: this.state.columnCount === 1 ? COLUMN_COUNT: 1
   });
 
   render() {
@@ -277,11 +277,11 @@ export default class App extends React.Component {
           />
           <button 
             onClick={this.setListOrGrid}
-            title={`View as ${this.state.cardsDisplay}`}
+            title={`View as ${this.state.columnCount}`}
           >
-            {this.state.cardsDisplay === 'list'
-              ? <FaList />
-              : <FiGrid />
+            {this.state.columnCount === 1 
+              ? <FiGrid />
+              : <FaList />
             }
           </button>
           <button 
@@ -311,7 +311,7 @@ export default class App extends React.Component {
                   }
                 }
               }} 
-              cardsDisplay={this.state.cardsDisplay}
+              columnCount={this.state.columnCount}
             />
           }
         </div>
