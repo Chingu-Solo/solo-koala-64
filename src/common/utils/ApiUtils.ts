@@ -13,8 +13,7 @@ export async function get<T>(url: string): Promise<T | never> {
 }
 
 
-// bit overkill - but was a nice typescript learning experience and may useful 
-// in more complex apps
+// ... below as inspiration - maybe for bigger app 
 //import { ApiMethod, KeyValue } from "../common/types";
 //
 //export class APIService {

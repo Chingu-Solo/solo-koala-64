@@ -8,8 +8,7 @@
 }
 
 .Cards {
-  height: 600px;
-  width: 800px;
+  height: 80vh;
 }
 
 .Tools {
@@ -23,6 +22,7 @@
 
 
 .App {
+  margin: 5px;
   text-align: center;
   color: #000;
   background-color: #fff;

@@ -18,7 +18,7 @@ describe('App', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it('fetches data from server when server returns a successful response', done => { // call done() when Promise resolved 
+  it('fetches data from server when server returns a successful response', done => {
     const API_KEY = process.env.REACT_APP_GOOGLE_FONTS_API_KEY;
     const request: string = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`
     const mockSuccessResponse = {} //new Response();

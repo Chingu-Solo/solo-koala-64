@@ -16,18 +16,35 @@ import { get, checkResponse } from '../ApiUtils'
 //Security, authorization, and permission tests (which are out of the scope of this post)
 
 describe('checkResponse', () => {
-  it('throws Error with invalid response object',()  => {
-    const mockInvalidResponse = { 
-      'ok': false, 
-      statusText: 'Response NOT OK' 
-    }
-    expect(() => {checkResponse(mockInvalidResponse)}).toThrow();
+
+  beforeEach(() => {
+    fetch.resetMocks()
+    fetch.mockResponseOnce('', { status: 200 });
+  });
+
+  it('throws Error with invalid response object',done  => {
+    //const mockInvalidResponse = { 
+    //  'ok': false, 
+    //  statusText: 'Response NOT OK' 
+    //}
+    fetch.mockResponseOnce('',Promise.reject(new Error('bad url')));
+    expect(() => {get('hmmm')}).toThrow();
+    done()
   });
 
   it('returns a the Response object if valid',() => {
     expect(checkResponse(new Response()).ok).toBe(true);
   });
+
+it('succeeds', done => {
+
+        expect(true).toBe(true);
+        done();
+    });
 });
+
+
+
 
 //TODO would like to test for throw behaviour upon invalid fetch('invalid request')
 //describe('get', () => {
