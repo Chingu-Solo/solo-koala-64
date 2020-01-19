@@ -270,7 +270,8 @@ export default class App extends React.Component {
     cardsDisplay: 'list',
     searchText: '',
     inputText: '',
-    fonts: this.state.bakFonts, //because we messed with state
+    fonts: this.state.bakFonts, 
+    //because we maybe messed with state in RemoveHandler / ToTopHandler
   });
 
   setListOrGrid = () => this.setState({
