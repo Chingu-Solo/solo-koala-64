@@ -7,12 +7,13 @@ import App from '../App';
 describe('App', () => {
 
   it('renders footer text', () => {
+    // maybe add some more ;) ...
     const { getByText } = render(<App />);
     const linkElement = getByText(/faebebin/i);
     expect(linkElement).toBeInTheDocument();
   });
 
-  it(`renders the loading screen`, () => {
+  it(`renders screen as expected`, () => {
     const tree = renderer.create(<App />).toJSON();
     expect(tree).toMatchSnapshot();
   });
