@@ -14,7 +14,7 @@ import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
 //import { fonts } from './fixtures/fonts';
 import { TextInput } from './components/Tools';
-import GoogleFontsAPI, { GoogleFont } from './api/GoogleFonts';
+import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
 
 type Input = string;
@@ -230,7 +230,6 @@ class Cards extends React.Component<CardsProps> {
 
 type Fonts = GoogleFont[] | null;
 interface AppState {
-  fontsAPI: GoogleFontsAPI,
   fonts: Fonts,
   bakFonts: Fonts,
   cardsDisplay: CardsDisplay,
@@ -240,7 +239,6 @@ interface AppState {
 
 export default class App extends React.Component {
   readonly state: AppState = {
-    fontsAPI: new GoogleFontsAPI(),
     fonts: null,  //or maybe set some default
     bakFonts: null, // backup to reset without request after messing with state
     cardsDisplay: 'list',
@@ -249,7 +247,7 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    const fonts: GoogleFont[] = await this.state.fontsAPI._getGoogleFonts();
+    const fonts: GoogleFont[] = await getGoogleFonts();
     this.setState({ fonts })
     fonts && this.setState({ bakFonts: [...fonts] })
   }

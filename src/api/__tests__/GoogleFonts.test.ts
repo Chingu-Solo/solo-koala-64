@@ -1,18 +1,44 @@
 import { render } from '@testing-library/react';
-import GoogleFontsAPI from '../GoogleFonts'
+import 
+GoogleFontsAPI, 
+{ 
+  requestString, 
+  styleSheetURL,
+  googleFonts,
+  GoogleFont,
+  StyleSheetURL,
+  Item
+} from '../GoogleFonts';
 
 import { fontsJSON } from '../../__fixtures__/fonts'
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/faebebin/i);
-  expect(linkElement).toBeInTheDocument();
+
+test('requestString returns expected string', () => {
+  expect(requestString()).toMatch(
+    /https:\/\/www.googleapis.com\/webfonts\/v1\/webfonts\?key=/
+  );
+  expect(requestString()).toMatch(
+    /sort=popularity/
+  );
 });
 
-    const request: string = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`
-    const mockSuccessResponse = {} //new Response();
-    const mockJsonPromise = Promise.resolve(mockSuccessResponse);
-    const mockFetchPromise = Promise.resolve({
-      json: () => mockJsonPromise,
-    });
+test('styleSheetURL returns as expected string', () => {
+  const fontItemMock: Item = fontsJSON.items[1];
+  const url: StyleSheetURL = styleSheetURL(fontItemMock);
+  expect(fontItemMock.family).toMatch(/Open Sans/);
+  expect(url).toMatch(
+    /https:\/\/fonts.googleapis.com\/css\?family=Open\+Sans/
+  );
+});
+
+
+test('googleFonts returns as expected', () => {
+  const fontItemsMock: Item[] = fontsJSON.items.slice(0,2);
+  const gFonts: GoogleFont[] = googleFonts(fontItemsMock);
+  expect(gFonts[0].family).toMatch(/Roboto/);
+  expect(gFonts[0].styleSheetURL).toMatch(
+    /https:\/\/fonts.googleapis.com\/css\?family/
+  );
+  expect(gFonts[1].family).toMatch(/Open Sans/);
+});
 

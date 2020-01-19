@@ -6,7 +6,7 @@ type Kind = string; //'webfonts#webfont'
 type Family = string;
 type Sort = 'alpha'|'date'|'popularity'|'style'|'trending';
 
-type Item = {
+export type Item = {
   kind: Kind,
   family: Family,
   category: string,
@@ -22,42 +22,20 @@ export type FontsDeveloperAPI = {
   items: Item[],
 }
 
-type StyleSheetURL = string;
+export type StyleSheetURL = string;
 
 export type GoogleFont = {
   family: Family,
   styleSheetURL: StyleSheetURL,
 }
 
-function requestString {
-  const sort: Sort  = 'popularity'
-  return  `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=${this.sort}`
+export function requestString(): string {
+  const sort: Sort  = 'popularity';
+  return  `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=${sort}`
 }
 
-function styleSheetURL(item: Item): StyleSheetURL {
+export function styleSheetURL(item: Item): StyleSheetURL {
   const url = ['https://fonts.googleapis.com/css?family='];
-  url.push(item.family.replace(/ /g, '+'));
-  //** if more parameters wanted ...
-  return url.join('');
-}
-
-
-export default class GoogleFontsAPI
-  async _getGoogleFonts(): Promise<GoogleFont[] | never> {
-    const { items } = await get<FontsDeveloperAPI>(this.request);
-    return (
-      items && items.map( (item: Item): GoogleFont  => {
-        return ({
-          'family': item.family,
-          'styleSheetURL': this.styleSheetURL(item)
-        });
-      })
-    );
-  }
-
-}
-
-//**
  //if (item.variants.includes('italic')) {
   //  url.push(':');
   //  url.push('italic');
@@ -66,3 +44,20 @@ export default class GoogleFontsAPI
   //  url.push('&subset=');
   //  url.push('greek');
   //} 
+  url.push(item.family.replace(/ /g, '+'));
+  return url.join('');
+}
+
+export function googleFonts(items: Item[]): GoogleFont[] {
+  return (
+    items.map( (item: Item): GoogleFont  => ({
+      'family': item.family,
+      'styleSheetURL': styleSheetURL(item)
+    }))
+  );
+}
+
+export default async function getGoogleFonts(): Promise<GoogleFont[] | never> {
+  const { items } = await get<FontsDeveloperAPI>(requestString());
+  return items && googleFonts(items);
+}
