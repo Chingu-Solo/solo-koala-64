@@ -16,6 +16,7 @@ import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
 
 const COLUMN_COUNT = 3;
+const GUTTER_SIZE = 5;
 
 type Input = string;
 
@@ -74,9 +75,9 @@ function Card({
       <p>{font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
-        <p style={{fontFamily: `'${font.family}', serif`}}>
+        <div style={{fontFamily: `'${font.family}', serif`}}>
           {input || defaultText}
-        </p>
+        </div>
       </div>
     </div>    
   );
@@ -106,9 +107,6 @@ function Row({ index=0, style, data }: RowProps) {
   );
 };
 
-
-const GUTTER_SIZE = 5;
-const ROW_HEIGHT = 100;
 
 interface CellProps extends StyledCardsContainer {
   columnIndex: number, 
@@ -164,6 +162,15 @@ interface CardsProps extends ReactWindowComp {
 class Cards extends React.Component<CardsProps> {
   gridRef: any = React.createRef();
 
+  textHeight(): number {
+    //TODO pass to Cell via data-props
+    const div: HTMLDivElement = document.createElement('div')
+    div.innerHTML = this.props.data.input;
+    div.style.fontFamily = 'Montserrat'; //just some big Font
+    div.style.fontSize = '14pt';  //TODO dynamic
+    return 200; //div.measureText().width;
+  }
+
   render () {
     const columnCount = this.props.columnCount;
     return(
@@ -191,8 +198,8 @@ class Cards extends React.Component<CardsProps> {
               columnWidth={width / columnCount + GUTTER_SIZE}
               height={height}
               innerElementType={innerElementType}
-              rowCount={Math.ceil(this.props.data.fonts.length/columnCount)}
-              rowHeight={ROW_HEIGHT + GUTTER_SIZE}
+              rowCount={Math.ceil(this.props.data.fonts.length / columnCount)}
+              rowHeight={this.textHeight() + GUTTER_SIZE}
               width={width}
               itemData={this.props.data}
               ref={this.gridRef}
