@@ -29,12 +29,20 @@ export type GoogleFont = {
   styleSheetURL: StyleSheetURL,
 }
 
-export default class GoogleFontsAPI {
-  sort: Sort  = 'popularity'
-  request: string = (
-    `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=${this.sort}`
-  );
+function requestString {
+  const sort: Sort  = 'popularity'
+  return  `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=${this.sort}`
+}
 
+function styleSheetURL(item: Item): StyleSheetURL {
+  const url = ['https://fonts.googleapis.com/css?family='];
+  url.push(item.family.replace(/ /g, '+'));
+  //** if more parameters wanted ...
+  return url.join('');
+}
+
+
+export default class GoogleFontsAPI
   async _getGoogleFonts(): Promise<GoogleFont[] | never> {
     const { items } = await get<FontsDeveloperAPI>(this.request);
     return (
@@ -47,13 +55,6 @@ export default class GoogleFontsAPI {
     );
   }
 
-  styleSheetURL(item: Item): StyleSheetURL {
-    const url = ['https://fonts.googleapis.com/css?family='];
-    url.push(item.family.replace(/ /g, '+'));
-    //** if more specific needed
-    //href="https://fonts.googleapis.com/css?family={family}"
-    return url.join('');
-  }
 }
 
 //**
