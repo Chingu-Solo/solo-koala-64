@@ -297,6 +297,7 @@ export default class App extends React.Component {
           />
           <select 
             className={this.state.colorScheme}
+            title="chose font size"
             onChange={(e: any): void => this.setState(
               { fontSize: e.target.value }
             )}
@@ -307,6 +308,7 @@ export default class App extends React.Component {
           </select>
           <select 
             className={this.state.colorScheme}
+            title="chose Color"
             onChange={(e: any): void => this.setState(
               { colorScheme: e.target.value }
             )}
@@ -323,7 +325,10 @@ export default class App extends React.Component {
           <button 
             className={this.state.colorScheme}
             onClick={this.setListOrGrid}
-            title={`View as ${this.state.columnCount}`}
+            title={`View as ${this.state.columnCount === 1
+              ? 'Grid'
+              : 'List'
+            }`}
           >
             {this.state.columnCount === 1 
               ? <FiGrid />
