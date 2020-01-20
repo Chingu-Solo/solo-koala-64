@@ -13,7 +13,7 @@ import classNames from 'classnames';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSize';
+import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSizes';
 import ColorSchemeOptions, { defaultColor, ColorScheme } from './constants/ColorSchemes';
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
@@ -272,11 +272,13 @@ export default class App extends React.Component {
             value={this.state.searchText}
             placeHolder="search fonts" 
             changeHandler={e => this.setState({ searchText: e.target.value })}
+            className={this.state.colorScheme}
           />
           <TextInput 
             value={this.state.inputText}
             placeHolder="type-something" 
             changeHandler={e => this.setState({ inputText: e.target.value })}
+            className={this.state.colorScheme}
           />
           <button 
             onClick={this.setListOrGrid}
