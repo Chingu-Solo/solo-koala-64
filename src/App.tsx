@@ -289,21 +289,13 @@ export default class App extends React.Component {
           </button>
           <Dropdown 
             options={FontSizeOptions} 
-            onChange={
-              (e: any): void => this.setState({
-                fontSize: e.value
-              })
-            }
-            value={defaultSize} 
+            onChange={(e: any): void => this.setState({ fontSize: e.value })}
+            value={this.state.fontSize} 
           />
           <Dropdown 
             options={ColorSchemeOptions} 
-            onChange={
-              (e: any): void => this.setState({
-                colorScheme: e.value
-              })
-            }
-            value={defaultColor} 
+            onChange={(e: any): void => this.setState({ colorScheme: e.value })}
+            value={this.state.colorScheme} 
           />
           <button 
             onClick={this.resetState}
