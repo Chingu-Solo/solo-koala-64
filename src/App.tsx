@@ -107,7 +107,7 @@ interface CellProps extends CardsProps {
 }
 
 function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
-  const listIndex: number = rowIndex*data.columnCount + columnIndex+1;
+  const listIndex: number = rowIndex*data.columnCount + columnIndex;
   const i: number = Math.min(listIndex, data.fonts.length-1);
   const displayI: boolean = listIndex < data.fonts.length;
   return (
