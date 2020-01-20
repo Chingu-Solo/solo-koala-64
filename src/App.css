@@ -92,6 +92,10 @@ Select:hover, Button:hover {
   z-index: 10;
   bottom: 20px;
   right: 40px;
+  border: 1px solid;
+  border-radius: 2rem;
+  font-size: 2rem;
+  box-shadow: 2px 2px;
 }
 
 .TextInput {

@@ -168,7 +168,7 @@ class Cards extends React.Component<CardsProps> {
       <Fragment>
         <div>
           <button
-            className="ScrollToTop"
+            className={classNames("ScrollToTop", this.props.data.colorScheme)}
             onClick={() => {
               this.gridRef.current.scrollToItem({
                 align: "start",
