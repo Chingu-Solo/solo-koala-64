@@ -38,6 +38,7 @@ interface CardProps extends CardBase {
 
 function Card({ 
   font, 
+  fontSize,
   input, 
   clickRemoveHandler, 
   clickToTopHandler, 
@@ -73,7 +74,7 @@ function Card({
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
         <div style={{
           fontFamily: `'${font.family}', serif`,
-          fontSize: 24
+          fontSize: fontSize,
         }}>
           {input || defaultText}
         </div>
@@ -283,7 +284,7 @@ export default class App extends React.Component {
             options={FontSizeOptions} 
             onChange={
               (e: any): void => this.setState({
-                fontSize: e._onSelect
+                fontSize: e.value
               })
             }
             value={defaultSize} 
