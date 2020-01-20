@@ -56,7 +56,7 @@ function Card({
         <button 
           className={colorScheme}
           onClick={() => {}}
-          title="Select this font"
+          title="Select font"
         >
           <AiOutlineSelect className="buttonIcon"/> 
         </button>
@@ -72,7 +72,7 @@ function Card({
         <button 
           className={colorScheme}
           onClick={() => clickRemoveHandler(listId)}
-          title="Remove Font (! New Http Request needed to redo)"
+          title="Remove font"
         >
           <FaRegWindowClose className="buttonIcon"/> 
         </button>
@@ -295,6 +295,31 @@ export default class App extends React.Component {
             changeHandler={e => this.setState({ inputText: e.target.value })}
             className={this.state.colorScheme}
           />
+          <select 
+            className={this.state.colorScheme}
+            onChange={(e: any): void => this.setState(
+              { fontSize: e.target.value }
+            )}
+          >
+            {fontSizeOptions.map((fontSize: FontSize) => (
+              <option value={fontSize}>{fontSize}</option>
+            ))}
+          </select>
+          <select 
+            className={this.state.colorScheme}
+            onChange={(e: any): void => this.setState(
+              { colorScheme: e.target.value }
+            )}
+          >
+            {colorSchemeOptions.map((color: ColorScheme) => (
+              <option 
+                value={color} 
+                className={classNames(color, "NoSelectMarker")}
+              >
+                &#9673;
+              </option>
+            ))}
+          </select>
           <button 
             className={this.state.colorScheme}
             onClick={this.setListOrGrid}
@@ -305,26 +330,6 @@ export default class App extends React.Component {
               : <FaList />
             }
           </button>
-          <select 
-            className={this.state.colorScheme}
-            onChange={(e: any): void => this.setState(
-              { fontSize: e.target.value }
-            )}
-          >
-            {fontSizeOptions.map((fontSize: FontSize) => (
-              <option value={fontSize}>fontSize</option>
-            ))}
-          </select>
-          <select 
-            className={this.state.colorScheme}
-            onChange={(e: any): void => this.setState(
-              { colorScheme: e.target.value }
-            )}
-          >
-            {colorSchemeOptions.map((color: ColorScheme) => (
-              <option value={color} className={color}>&#9673;</option>
-            ))}
-          </select>
           <button 
             className={this.state.colorScheme}
             onClick={this.resetState}
