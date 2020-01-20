@@ -12,13 +12,12 @@ import { TiArrowUp } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import classNames from 'classnames';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 
-import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSizes';
+import fontSizeOptions, { defaultSize, FontSize } from './constants/FontSizes';
+import colorSchemeOptions, { defaultColor, ColorScheme } from './constants/ColorSchemes';
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
-import { EventIdHandler, ColorScheme } from './common/types';
+import { EventIdHandler  } from './common/types';
 
 
 const COLUMN_COUNT: number = 3;
@@ -219,8 +218,6 @@ interface AppState {
 }
 
 export default class App extends React.Component {
-  defaultColor: ColorScheme = 'Black';
-
   readonly state: AppState = {
     fonts: null,  //or maybe set some default
     bakFonts: null, // backup to reset without request after messing with state
@@ -228,7 +225,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
-    colorScheme: this.defaultColor,
+    colorScheme: defaultColor,
   }
 
   resetState = () => this.setState({ 
@@ -238,7 +235,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
-    colorScheme: this.defaultColor,
+    colorScheme: defaultColor,
   });
 
   async componentDidMount() {
@@ -308,24 +305,26 @@ export default class App extends React.Component {
               : <FaList />
             }
           </button>
-          <Dropdown 
-            options={FontSizeOptions} 
-            onChange={(e: any): void => this.setState({ fontSize: e.value })}
-            value={this.state.fontSize} 
-          />
-          <Dropdown 
-            options={FontSizeOptions} 
-            onChange={(e: any): void => this.setState({ colorScheme: e.value })}
-            value={this.state.colorScheme} 
-          />
           <select 
             className={this.state.colorScheme}
-            onChange={(e: any): void => this.setState({ colorScheme: e.target.value })}
+            onChange={(e: any): void => this.setState(
+              { fontSize: e.target.value }
+            )}
           >
-            <option value="Blue" className="Blue">&#9673;</option>
-            <option value="Yellow" className="Yellow">&#9673;</option>
-</select>
-
+            {fontSizeOptions.map((fontSize: FontSize) => (
+              <option value={fontSize}>fontSize</option>
+            ))}
+          </select>
+          <select 
+            className={this.state.colorScheme}
+            onChange={(e: any): void => this.setState(
+              { colorScheme: e.target.value }
+            )}
+          >
+            {colorSchemeOptions.map((color: ColorScheme) => (
+              <option value={color} className={color}>&#9673;</option>
+            ))}
+          </select>
           <button 
             className={this.state.colorScheme}
             onClick={this.resetState}

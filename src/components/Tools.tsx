@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { EventValueHandler } from '../common/types';
-import { ColorScheme } from '../common/types';
+import { ColorScheme } from '../constants/ColorSchemes';
 
 interface TextInputProps {
   value: string,

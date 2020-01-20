@@ -78,7 +78,7 @@ Select {
   appearance: none;
 }
 
-Button:hover {
+Select:hover, Button:hover {
   border: 1px solid;
   border-radius: 3px;
 }
