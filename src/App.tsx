@@ -343,6 +343,9 @@ export default class App extends React.Component {
             <AiOutlineReload />
           </button>
         </div>
+        <div className="Tools">
+          Viewing {fonts && fonts.length} out of  {this.state.bakFonts && this.state.bakFonts.length} fonts.
+        </div>
         <div className="Cards">
           {fonts && 
             <Cards 
