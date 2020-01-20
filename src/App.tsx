@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSize'
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
@@ -25,17 +26,9 @@ type Input = string;
 
 interface CardBase {
   input: Input,
+  fontSize: FontSize,
   clickRemoveHandler: EventIdHandler
   clickToTopHandler: EventIdHandler
-}
-
-interface Data extends CardBase {
-  fonts: GoogleFont[],
-}
-
-interface ReactWindowComp {
-  // react-window requires to include all information in one {data} prop
-  data: Data,
 }
 
 interface CardProps extends CardBase { 
@@ -90,35 +83,18 @@ function Card({
 }
 
 
-interface StyledCardsContainer extends ReactWindowComp {
-  style: CSS.Properties | any,
+interface ReactWindowBase {
+  // react-window requires to include all information in one {data} prop
+  data: CardBase & {
+    fonts: GoogleFont[],
+  },
 }
 
-interface RowProps extends StyledCardsContainer {
-  //TODO typing more specific ?
-  index?: number,
-}
-
-function Row({ index=0, style, data }: RowProps) {
-  return (
-    <div style={style}>
-      <Card 
-        font={data.fonts[index]} 
-        input={data.input} 
-        clickRemoveHandler={data.clickRemoveHandler}
-        clickToTopHandler={data.clickToTopHandler}
-        listId={index}
-      />
-    </div>
-  );
-};
-
-
-interface CellProps extends StyledCardsContainer {
+interface CellProps extends ReactWindowBase {
   columnIndex: number, 
   rowIndex: number, 
+  style: CSS.Properties | any,
 }
-
 
 function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
   const listIndex = columnIndex*COLUMN_COUNT + rowIndex;
@@ -138,6 +114,7 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
       {displayI &&
         <Card 
           font={data.fonts[i]} 
+          fontSize={data.fontSize}
           input={data.input} 
           clickRemoveHandler={data.clickRemoveHandler}
           clickToTopHandler={data.clickToTopHandler}
@@ -161,7 +138,7 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 ));
 
 
-interface CardsProps extends ReactWindowComp { 
+interface CardsProps extends ReactWindowBase { 
   columnCount: number,
 }
 
@@ -219,13 +196,16 @@ class Cards extends React.Component<CardsProps> {
   }
 }
 
+
 type Fonts = GoogleFont[] | null;
+
 interface AppState {
   fonts: Fonts,
   bakFonts: Fonts,
   columnCount: number,
   inputText: Input,
-  searchText: string
+  searchText: string,
+  fontSize: FontSize,
 }
 
 export default class App extends React.Component {
@@ -233,9 +213,19 @@ export default class App extends React.Component {
     fonts: null,  //or maybe set some default
     bakFonts: null, // backup to reset without request after messing with state
     columnCount: COLUMN_COUNT,
+    searchText: '',
     inputText: '',
-    searchText: ''
+    fontSize: defaultSize,
   }
+
+  resetState = () => this.setState({ 
+    //because we maybe messed with state in RemoveHandler / ToTopHandler
+    fonts: this.state.bakFonts, 
+    columnCount: COLUMN_COUNT,
+    searchText: '',
+    inputText: '',
+    fontSize: defaultSize,
+  });
 
   async componentDidMount() {
     const fonts: GoogleFont[] = await getGoogleFonts();
@@ -257,42 +247,9 @@ export default class App extends React.Component {
     }
   }
 
-  resetState = () => this.setState({ 
-    columnCount: COLUMN_COUNT,
-    searchText: '',
-    inputText: '',
-    fonts: this.state.bakFonts, 
-    //because we maybe messed with state in RemoveHandler / ToTopHandler
-  });
-
   setListOrGrid = () => this.setState({
     columnCount: this.state.columnCount === 1 ? COLUMN_COUNT: 1
   });
-
-
-fontOptions: any = 8, 12, 14, 20, 24, 32, 40
-
-options: any = [
-  { value: 'one', label: 'One' },
-  { value: 'two', label: 'Two', className: 'myOptionClassName' },
-  {
-   type: 'group', name: 'group1', items: [
-     { value: 'three', label: 'Three', className: 'myOptionClassName' },
-     { value: 'four', label: 'Four' }
-   ]
-  },
-  {
-   type: 'group', name: 'group2', items: [
-     { value: 'five', label: 'Five' },
-     { value: 'six', label: 'Six' }
-   ]
-  }
-];
-
-
-
-defaultOption = this.options[0]
-
 
   render() {
     const fonts = this.filteredFonts();
@@ -323,16 +280,18 @@ defaultOption = this.options[0]
             }
           </button>
           <Dropdown 
-            options={this.options} 
-            onChange={(e: any): React.ChangeEvent => e._onSelect}
-            value={this.defaultOption} 
-            placeholder="Select an option" 
+            options={FontSizeOptions} 
+            onChange={
+              (e: any): void => this.setState({
+                fontSize: e._onSelect
+              })
+            }
+            value={defaultSize} 
           />
           <Dropdown 
-            options={this.options} 
+            options={FontSizeOptions} 
             onChange={(e: any): React.ChangeEvent => e._onSelect}
-            value={this.defaultOption} 
-            placeholder="Select an option" 
+            value={defaultSize} 
           />
           <button 
             onClick={this.resetState}
@@ -344,9 +303,11 @@ defaultOption = this.options[0]
         <div className="Cards">
           {fonts && 
             <Cards 
+              columnCount={this.state.columnCount}
               data={{
                 fonts, 
                 input: this.state.inputText,
+                fontSize: this.state.fontSize,
                 clickRemoveHandler: listId => {
                   //if (sureFonts.indexOf(listId) !== -1) { //TODO type problem
                   if (fonts.length > listId) {
@@ -359,9 +320,8 @@ defaultOption = this.options[0]
                     const newTop = fonts.splice(listId, 1)[0];
                     this.setState({ fonts: [newTop, ...fonts]});
                   }
-                }
+                },
               }} 
-              columnCount={this.state.columnCount}
             />
           }
         </div>
