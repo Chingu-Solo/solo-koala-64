@@ -11,4 +11,3 @@ export default [
   { value: '32px', label: '32px' },
   { value: '40px', label: '40px' },
 ];
-

@@ -13,7 +13,8 @@ import classNames from 'classnames';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSize'
+import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSize';
+import ColorSchemeOptions, { defaultColor, ColorScheme } from './constants/ColorSchemes';
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { EventIdHandler } from './common/types';
@@ -56,12 +57,14 @@ function Card({
         >
           <AiOutlineSelect /> 
         </button>
-        <button 
-          onClick={() => clickToTopHandler(listId)}
-          title="Move font to top"
-        >
-          <TiArrowUp /> 
-        </button>
+        {listId > 0 &&
+          <button 
+            onClick={() => clickToTopHandler(listId)}
+            title="Move font to top"
+          >
+            <TiArrowUp /> 
+          </button>
+        }
         <button 
           onClick={() => clickRemoveHandler(listId)}
           title="Remove Font (! New Http Request needed to redo)"
@@ -157,6 +160,7 @@ class Cards extends React.Component<CardsProps> {
 
   render () {
     const columnCount = this.props.columnCount;
+    //const scroll: any = document.getElementsByClassName('Grid')//[0].scrollTop;
     return(
       <Fragment>
         <div>
@@ -207,6 +211,7 @@ interface AppState {
   inputText: Input,
   searchText: string,
   fontSize: FontSize,
+  colorScheme: ColorScheme,
 }
 
 export default class App extends React.Component {
@@ -217,6 +222,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
+    colorScheme: defaultColor,
   }
 
   resetState = () => this.setState({ 
@@ -226,6 +232,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
+    colorScheme: defaultColor,
   });
 
   async componentDidMount() {
@@ -256,11 +263,11 @@ export default class App extends React.Component {
     const fonts = this.filteredFonts();
     // all fonts stay in the state, and no new API request needed
     return (
-      <div className="App">
+      <div className={classNames("App", this.state.colorScheme)}>
         <header>
           <p>Google Fonts</p>
         </header>
-        <div className={classNames("Tools", "ToolBar")}>
+        <div className={classNames("Tools", "MainToolBar")}>
           <TextInput
             value={this.state.searchText}
             placeHolder="search fonts" 
@@ -290,9 +297,13 @@ export default class App extends React.Component {
             value={defaultSize} 
           />
           <Dropdown 
-            options={FontSizeOptions} 
-            onChange={(e: any): React.ChangeEvent => e._onSelect}
-            value={defaultSize} 
+            options={ColorSchemeOptions} 
+            onChange={
+              (e: any): void => this.setState({
+                colorScheme: e.value
+              })
+            }
+            value={defaultColor} 
           />
           <button 
             onClick={this.resetState}
