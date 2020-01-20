@@ -81,7 +81,7 @@ Select {
 }
 
 .NoSelectMarker:after { 
-  background-color: Green;
+  user-select: none;
 }
 
 Select:hover, Button:hover {
