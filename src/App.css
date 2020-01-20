@@ -5,26 +5,33 @@
 }
 
 /* ColorSchemes to extend .App in App */
-.Black {
+.LightBlack {
   color: #000;
   background-color: #fff;
 }
 
-.Blue {
+.LightBlue {
   color: Blue;
   background-color: #fff;
 }
 
-.White {
+.DarkWhite {
   color: #fff;
   background-color: #000;
 }
 
-.Yellow {
+.DarkYellow {
   color: Yellow;
   background-color: #000;
 }
 
+.SelectedDark {
+  border: 2px solid Blue;
+}
+
+.SelectedLight {
+  border: 2px solid Yellow;
+}
 
 header {
   display: flex;
@@ -47,6 +54,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   border-top: 1px solid;
+  border-radius: 10px;
   margin: 10px;
 }
 

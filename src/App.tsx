@@ -1,4 +1,5 @@
 import React, { forwardRef, Fragment } from 'react';
+import update from 'immutability-helper';
 //import ReactDOM from "react-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,6 +25,7 @@ const COLUMN_COUNT: number = 3;
 const GUTTER_SIZE: number = 5;
 
 type Input = string;
+type AppFont = GoogleFont & { selected: boolean };
 
 interface CardBase {
   input: Input,
@@ -31,10 +33,11 @@ interface CardBase {
   colorScheme: ColorScheme,
   clickRemoveHandler: EventIdHandler
   clickToTopHandler: EventIdHandler
+  clickSelectHandler: EventIdHandler
 }
 
 interface CardProps extends CardBase { 
-  font: GoogleFont,
+  font: AppFont,
   listId: number
 }
 
@@ -45,17 +48,23 @@ function Card({
   input, 
   clickRemoveHandler, 
   clickToTopHandler, 
+  clickSelectHandler,
   listId 
 }: CardProps) {
   const defaultText: string = (
     'Then came the night of the first falling star'
   );
   return(
-    <div className="Card">
+    <div className={classNames(
+      "Card", font.selected 
+        ? colorScheme.includes('Light') 
+          ? "SelectedLight" : "SelectedDark"
+        : ""
+    )}>
       <div className="Tools">
         <button 
           className={colorScheme}
-          onClick={() => {}}
+          onClick={() => clickSelectHandler(listId)}
           title="Select font"
         >
           <AiOutlineSelect className="buttonIcon"/> 
@@ -95,7 +104,7 @@ function Card({
 interface CardsProps {
   // react-window requires to include all information in one {data} prop
   data: CardBase & {
-    fonts: GoogleFont[],
+    fonts: AppFont[],
     columnCount: number,
   },
 }
@@ -129,6 +138,7 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
           input={data.input} 
           clickRemoveHandler={data.clickRemoveHandler}
           clickToTopHandler={data.clickToTopHandler}
+          clickSelectHandler={data.clickSelectHandler}
           listId={i}
         />
       }
@@ -205,7 +215,7 @@ class Cards extends React.Component<CardsProps> {
 }
 
 
-type Fonts = GoogleFont[] | null;
+type Fonts = AppFont[] | [];
 
 interface AppState {
   fonts: Fonts,
@@ -219,8 +229,8 @@ interface AppState {
 
 export default class App extends React.Component {
   readonly state: AppState = {
-    fonts: null,  //or maybe set some default
-    bakFonts: null, // backup to reset without request after messing with state
+    fonts: [],
+    bakFonts: [], // backup to reset without request after messing with state
     columnCount: COLUMN_COUNT,
     searchText: '',
     inputText: '',
@@ -239,7 +249,10 @@ export default class App extends React.Component {
   });
 
   async componentDidMount() {
-    const fonts: GoogleFont[] = await getGoogleFonts();
+    const gFonts: GoogleFont[] = await getGoogleFonts();
+    const fonts: Fonts = gFonts.map(font => (
+      Object.defineProperty(font, 'selected', { value: false })
+    ))
     this.setState({ fonts })
     fonts && this.setState({ bakFonts: [...fonts] })
   }
@@ -268,7 +281,7 @@ export default class App extends React.Component {
     return (
       <div className={classNames("App", this.state.colorScheme)}>
         <Navbar 
-          variant={['Black','Blue'].includes(this.state.colorScheme) ? "light" : "dark"} 
+          variant={this.state.colorScheme.includes('Light') ? "light" : "dark"} 
           className={this.state.colorScheme} 
           expand="lg">
           <Navbar.Brand href="#home">Google Fonts</Navbar.Brand>
@@ -347,7 +360,7 @@ export default class App extends React.Component {
           Viewing {fonts && fonts.length} out of  {this.state.bakFonts && this.state.bakFonts.length} fonts.
         </div>
         <div className="Cards">
-          {fonts && 
+          {fonts!==[] && 
             <Cards 
               data={{
                 fonts, 
@@ -366,6 +379,17 @@ export default class App extends React.Component {
                   if (fonts.length > listId) {
                     const newTop = fonts.splice(listId, 1)[0];
                     this.setState({ fonts: [newTop, ...fonts]});
+                  }
+                },
+                clickSelectHandler: listId => {
+                  if (fonts.length > listId) {
+                    const selected = fonts[listId].selected;
+                    this.setState({
+                      fonts: update(
+                        fonts, 
+                        {[listId]: {selected: {$set: !selected}}}
+                      )
+                    });
                   }
                 },
               }} 

@@ -1,8 +1,8 @@
-export type ColorScheme = 'Black'|'Blue'|'White'|'Yellow';
+export type ColorScheme = 'LightBlack'|'LightBlue'|'DarkWhite'|'DarkYellow';
 
 const colorSchemes: ColorScheme[] = [
-  'Black','Blue','White','Yellow'
+  'LightBlack','LightBlue','DarkWhite','DarkYellow'
 ];
 
-export const defaultColor: ColorScheme = 'Black';
+export const defaultColor: ColorScheme = 'LightBlack';
 export default colorSchemes;
