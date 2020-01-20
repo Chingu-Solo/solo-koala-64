@@ -3,7 +3,7 @@ import React, { forwardRef, Fragment } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CSS from 'csstype';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 import { FixedSizeGrid as Grid } from 'react-window';
 import { FaList, FaRegWindowClose } from 'react-icons/fa';
@@ -16,20 +16,20 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import FontSizeOptions, { defaultSize, FontSize } from './constants/FontSizes';
-import ColorSchemeOptions, { defaultColor, ColorScheme } from './constants/ColorSchemes';
 import { TextInput } from './components/Tools';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
-import { EventIdHandler } from './common/types';
+import { EventIdHandler, ColorScheme } from './common/types';
 
 
-const COLUMN_COUNT = 3;
-const GUTTER_SIZE = 5;
+const COLUMN_COUNT: number = 3;
+const GUTTER_SIZE: number = 5;
 
 type Input = string;
 
 interface CardBase {
   input: Input,
   fontSize: FontSize,
+  colorScheme: ColorScheme,
   clickRemoveHandler: EventIdHandler
   clickToTopHandler: EventIdHandler
 }
@@ -42,6 +42,7 @@ interface CardProps extends CardBase {
 function Card({ 
   font, 
   fontSize,
+  colorScheme,
   input, 
   clickRemoveHandler, 
   clickToTopHandler, 
@@ -54,27 +55,30 @@ function Card({
     <div className="Card">
       <div className="Tools">
         <button 
+          className={colorScheme}
           onClick={() => {}}
           title="Select this font"
         >
-          <AiOutlineSelect /> 
+          <AiOutlineSelect className="buttonIcon"/> 
         </button>
         {listId > 0 &&
           <button 
+            className={colorScheme}
             onClick={() => clickToTopHandler(listId)}
             title="Move font to top"
           >
-            <TiArrowUp /> 
+            <TiArrowUp className="buttonIcon"/> 
           </button>
         }
         <button 
+          className={colorScheme}
           onClick={() => clickRemoveHandler(listId)}
           title="Remove Font (! New Http Request needed to redo)"
         >
-          <FaRegWindowClose /> 
+          <FaRegWindowClose className="buttonIcon"/> 
         </button>
       </div>
-      <p>{font.family}</p>
+      <p>{listId}. {font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
         <div style={{
@@ -89,21 +93,22 @@ function Card({
 }
 
 
-interface ReactWindowBase {
+interface CardsProps {
   // react-window requires to include all information in one {data} prop
   data: CardBase & {
     fonts: GoogleFont[],
+    columnCount: number,
   },
 }
 
-interface CellProps extends ReactWindowBase {
+interface CellProps extends CardsProps {
   columnIndex: number, 
   rowIndex: number, 
   style: CSS.Properties | any,
 }
 
 function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
-  const listIndex = columnIndex*COLUMN_COUNT + rowIndex;
+  const listIndex: number = rowIndex*data.columnCount + columnIndex+1;
   const i: number = Math.min(listIndex, data.fonts.length-1);
   const displayI: boolean = listIndex < data.fonts.length;
   return (
@@ -121,6 +126,7 @@ function Cell({ columnIndex, rowIndex, style, data }: CellProps) {
         <Card 
           font={data.fonts[i]} 
           fontSize={data.fontSize}
+          colorScheme={data.colorScheme}
           input={data.input} 
           clickRemoveHandler={data.clickRemoveHandler}
           clickToTopHandler={data.clickToTopHandler}
@@ -144,10 +150,6 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
 ));
 
 
-interface CardsProps extends ReactWindowBase { 
-  columnCount: number,
-}
-
 class Cards extends React.Component<CardsProps> {
   gridRef: any = React.createRef();
 
@@ -161,7 +163,7 @@ class Cards extends React.Component<CardsProps> {
   }
 
   render () {
-    const columnCount = this.props.columnCount;
+    const columnCount = this.props.data.columnCount;
     //const scroll: any = document.getElementsByClassName('Grid')//[0].scrollTop;
     return(
       <Fragment>
@@ -217,6 +219,8 @@ interface AppState {
 }
 
 export default class App extends React.Component {
+  defaultColor: ColorScheme = 'Black';
+
   readonly state: AppState = {
     fonts: null,  //or maybe set some default
     bakFonts: null, // backup to reset without request after messing with state
@@ -224,7 +228,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
-    colorScheme: defaultColor,
+    colorScheme: this.defaultColor,
   }
 
   resetState = () => this.setState({ 
@@ -234,7 +238,7 @@ export default class App extends React.Component {
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
-    colorScheme: defaultColor,
+    colorScheme: this.defaultColor,
   });
 
   async componentDidMount() {
@@ -263,10 +267,13 @@ export default class App extends React.Component {
 
   render() {
     const fonts = this.filteredFonts();
-    // all fonts stay in the state, and no new API request needed
+    //TODO the bootstrap Navbar is little lazy and doesn't completely fit the style ... 
     return (
       <div className={classNames("App", this.state.colorScheme)}>
-        <Navbar bg="light" expand="lg">
+        <Navbar 
+          variant={['Black','Blue'].includes(this.state.colorScheme) ? "light" : "dark"} 
+          className={this.state.colorScheme} 
+          expand="lg">
           <Navbar.Brand href="#home">Google Fonts</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -292,6 +299,7 @@ export default class App extends React.Component {
             className={this.state.colorScheme}
           />
           <button 
+            className={this.state.colorScheme}
             onClick={this.setListOrGrid}
             title={`View as ${this.state.columnCount}`}
           >
@@ -306,11 +314,20 @@ export default class App extends React.Component {
             value={this.state.fontSize} 
           />
           <Dropdown 
-            options={ColorSchemeOptions} 
+            options={FontSizeOptions} 
             onChange={(e: any): void => this.setState({ colorScheme: e.value })}
             value={this.state.colorScheme} 
           />
+          <select 
+            className={this.state.colorScheme}
+            onChange={(e: any): void => this.setState({ colorScheme: e.target.value })}
+          >
+            <option value="Blue" className="Blue">&#9673;</option>
+            <option value="Yellow" className="Yellow">&#9673;</option>
+</select>
+
           <button 
+            className={this.state.colorScheme}
             onClick={this.resetState}
             title="Reset"
           >
@@ -320,11 +337,12 @@ export default class App extends React.Component {
         <div className="Cards">
           {fonts && 
             <Cards 
-              columnCount={this.state.columnCount}
               data={{
                 fonts, 
+                columnCount: this.state.columnCount,
                 input: this.state.inputText,
                 fontSize: this.state.fontSize,
+                colorScheme: this.state.colorScheme,
                 clickRemoveHandler: listId => {
                   //if (sureFonts.indexOf(listId) !== -1) { //TODO type problem
                   if (fonts.length > listId) {

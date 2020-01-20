@@ -70,8 +70,21 @@ footer {
   border-radius: 1rem; 
 }
 
-Button {
-  color: Blue;
+Select, Button {
+  border: none;
+}
+
+Select {
+  appearance: none;
+}
+
+Button:hover {
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.buttonIcon {
+  font-size: 20px;
 }
 
 .ScrollToTop {
