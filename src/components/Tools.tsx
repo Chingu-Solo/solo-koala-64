@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import classNames from 'classnames';
+
 import { EventValueHandler } from '../common/types';
 import { ColorScheme } from '../constants/ColorSchemes';
 
@@ -17,12 +19,15 @@ export function TextInput({
   className,
 }: TextInputProps) {
   return (
-    <input
-      value={value}
-      type="text" 
-      placeholder={placeHolder} 
-      onChange={changeHandler}
-      className={className}
-    />
+    <Fragment>
+      <input
+        value={value}
+        type="text" 
+        placeholder={placeHolder} 
+        onChange={changeHandler}
+        className={classNames("TextInput", className)}
+      />
+      <div className="vl"></div>
+    </Fragment>
   );
 }

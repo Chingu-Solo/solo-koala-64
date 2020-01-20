@@ -1,7 +1,9 @@
 import React, { forwardRef, Fragment } from 'react';
 //import ReactDOM from "react-dom";
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import CSS from 'csstype';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 import { FixedSizeGrid as Grid } from 'react-window';
 import { FaList, FaRegWindowClose } from 'react-icons/fa';
@@ -264,9 +266,18 @@ export default class App extends React.Component {
     // all fonts stay in the state, and no new API request needed
     return (
       <div className={classNames("App", this.state.colorScheme)}>
-        <header>
-          <p>Google Fonts</p>
-        </header>
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand href="#home">Google Fonts</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#">Catalog</Nav.Link>
+              <Nav.Link href="#">Featured</Nav.Link>
+              <Nav.Link href="#">Articles</Nav.Link>
+              <Nav.Link href="#">About</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <div className={classNames("Tools", "MainToolBar")}>
           <TextInput
             value={this.state.searchText}
