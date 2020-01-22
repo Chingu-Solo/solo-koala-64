@@ -1,11 +1,10 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { FaList } from 'react-icons/fa';
 import { FiGrid } from 'react-icons/fi';
-import { TiArrowUp } from 'react-icons/ti';
+import { TiArrowUp, TiArrowShuffle } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
-import { FaRegWindowClose } from 'react-icons/fa';
+import { FaRegWindowClose, FaList } from 'react-icons/fa';
 
 import fontSizeOptions, { FontSize } from './constants/FontSizes';
 import colorSchemeOptions, { ColorScheme } from './constants/ColorSchemes';
@@ -25,6 +24,7 @@ export interface MainToolBarBase {
   fontSize: FontSize,
   colorScheme: ColorScheme,
   columnCount: number,
+  gridDisplay: boolean,
 }
 
 interface MainToolBarProps extends MainToolBarBase {
@@ -33,6 +33,7 @@ interface MainToolBarProps extends MainToolBarBase {
   changeSelectFontSizeHandler: EventHandler<SelectEvent>,
   changeSelectColorHandler: EventHandler<SelectEvent>,
   switchListGrid: EventHandler,
+  shuffleFonts: EventHandler,
   resetState: EventHandler,
 }
 
@@ -42,24 +43,26 @@ export function MainToolBar({
   fontSize,
   colorScheme,
   columnCount,
+  gridDisplay,
   changeSearchHandler,
   changeTextHandler,
   changeSelectFontSizeHandler,
   changeSelectColorHandler,
   switchListGrid,
+  shuffleFonts,
   resetState
 }: MainToolBarProps) {
   return (
     <div className={classNames("Tools", "MainToolBar")}>
       <TextInput
         value={searchText}
-        placeHolder="search fonts" 
+        placeHolder="&#128269; search fonts" 
         changeHandler={changeSearchHandler}
         className={colorScheme}
       />
       <TextInput 
         value={inputText}
-        placeHolder="type-something" 
+        placeHolder="&#x270e; type-something" 
         changeHandler={changeTextHandler}
         className={colorScheme}
       />
@@ -73,38 +76,44 @@ export function MainToolBar({
         ))}
       </select>
       <select 
-        className={colorScheme}
+        className={classNames(colorScheme, "buttonIcon")}
         title="chose Color"
         onChange={changeSelectColorHandler}
       >
         {colorSchemeOptions.map((color: ColorScheme) => (
           <option 
             value={color} 
-            className={classNames(color, "NoSelectMarker")}
+            className={classNames(color, "NoSelectMarker", "buttonIcon")}
           >
             &#9673;
           </option>
         ))}
       </select>
+      {columnCount > 1 &&
+        <button 
+          className={classNames(colorScheme, "buttonIcon")}
+          onClick={switchListGrid}
+          title={`View as ${gridDisplay ? 'Grid'  : 'List'}`}
+        >
+          {gridDisplay 
+            ? <FiGrid className="buttonIcon"/> 
+            : <FaList className="buttonIcon"/>
+          }
+        </button>
+      }
       <button 
         className={colorScheme}
-        onClick={switchListGrid}
-        title={`View as ${columnCount === 1
-          ? 'Grid'
-          : 'List'
-        }`}
+        onClick={shuffleFonts}
+        title="shuffle font cards"
       >
-        {columnCount === 1 
-          ? <FiGrid />
-          : <FaList />
-        }
+        <TiArrowShuffle className="buttonIcon"/>
       </button>
       <button 
         className={colorScheme}
         onClick={resetState}
         title="Reset"
       >
-        <AiOutlineReload />
+        <AiOutlineReload className="buttonIcon"/>
       </button>
     </div>
   )
@@ -164,10 +173,8 @@ export interface InfoBarProps {
 
 export const InfoBar = ({ fonts, bakFonts }: InfoBarProps) => (
   <div>
-    {fonts && bakFonts &&
-      <div className="InfoBar">
-        Viewing {fonts.length} out of {bakFonts.length} fonts.
-      </div>
-    }
+    <div className="InfoBar">
+      Viewing {fonts.length} out of {bakFonts.length} fonts.
+    </div>
   </div>
 );

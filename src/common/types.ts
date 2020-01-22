@@ -12,5 +12,8 @@ export type EventHandler<T = {}> = (arg1: T) => void;
 //  value: U,
 //};
 
-export type AppFont = GoogleFont & { selected: boolean };
+export type AppFont = GoogleFont & { 
+  selected: boolean 
+  ranking: number
+};
 export type Fonts = AppFont[] | [];

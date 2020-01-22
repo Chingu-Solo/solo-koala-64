@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import { EventHandler, InputEvent } from '../common/types';
@@ -19,15 +19,12 @@ export function TextInput({
   className,
 }: TextInputProps) {
   return (
-    <Fragment>
-      <input
-        value={value}
-        type="text" 
-        placeholder={placeHolder} 
-        onChange={changeHandler}
-        className={classNames("TextInput", className)}
-      />
-      <div className="vl"></div>
-    </Fragment>
+    <input
+      value={value}
+      type="text" 
+      placeholder={placeHolder} 
+      onChange={changeHandler}
+      className={classNames("TextInput", className)}
+    />
   );
 }

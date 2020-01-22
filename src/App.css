@@ -14,6 +14,11 @@
   background-color: #fff;
 }
 
+.LightGreen {
+  color: Green;
+  background-color: #fff;
+}
+
 .DarkWhite {
   color: #fff;
   background-color: #000;
@@ -21,6 +26,11 @@
 
 .DarkYellow {
   color: Yellow;
+  background-color: #000;
+}
+
+.DarkGreen {
+  color: LightGreen;
   background-color: #000;
 }
 
@@ -54,8 +64,7 @@ footer {
   justify-content: center;
   border-top: 1px solid;
   border-radius: 10px;
-  margin: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
 }
 
 .Cards {
@@ -67,11 +76,7 @@ footer {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
-}
-
-.InfoBar {
-  font-size: 12px;
+  flex-wrap: wrap;
 }
 
 /*extends .Tools in App */
@@ -81,6 +86,11 @@ footer {
   border-radius: 1rem; 
   box-shadow: 2px 2px;
   margin: 10px;
+  padding: 0 10px;
+}
+
+.InfoBar {
+  font-size: 12px;
 }
 
 Select, Button {
@@ -89,6 +99,7 @@ Select, Button {
 
 Select {
   appearance: none;
+  padding: 5px 10px;
 }
 
 .NoSelectMarker:after { 
@@ -117,12 +128,14 @@ Select:hover, Button:hover {
 
 .TextInput {
   border: none;
-  height:20px;
+  border-bottom: 1px solid;
+  height: 35px;
+  padding: 0 5px;
+  border-radius: 5px;
 }
 
 .vl {
   border-left: 1px solid;
   height: 30px;
-  margin: 0 10px 0;
 }
 
