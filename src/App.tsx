@@ -7,8 +7,6 @@ import CSS from 'csstype';
 import { Navbar, Nav } from 'react-bootstrap';
 
 import { FixedSizeGrid as Grid } from 'react-window';
-import { FaList, FaRegWindowClose } from 'react-icons/fa';
-import { FiGrid } from 'react-icons/fi';
 import { TiArrowUp } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -16,29 +14,37 @@ import classNames from 'classnames';
 
 import fontSizeOptions, { defaultSize, FontSize } from './constants/FontSizes';
 import colorSchemeOptions, { defaultColor, ColorScheme } from './constants/ColorSchemes';
-import { TextInput } from './components/Tools';
+
+import { 
+  MainToolBarBase,
+  MainToolBar,
+  CardToolBar,
+  CardToolBarProps,
+  CardToolsBase,
+  Input,
+  InfoBarProps,
+  InfoBar
+} from './ToolBar';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
-import { EventIdHandler  } from './common/types';
+import { 
+  EventHandler, 
+  InputEvent,
+  AppFont,
+  Fonts,
+} from './common/types';
 
 
 const COLUMN_COUNT: number = 3;
 const GUTTER_SIZE: number = 5;
 
-type Input = string;
-type AppFont = GoogleFont & { selected: boolean };
 
-interface CardBase {
+interface CardBase extends CardToolsBase {
   input: Input,
   fontSize: FontSize,
-  colorScheme: ColorScheme,
-  clickRemoveHandler: EventIdHandler
-  clickToTopHandler: EventIdHandler
-  clickSelectHandler: EventIdHandler
 }
 
-interface CardProps extends CardBase { 
+interface CardProps extends CardBase, CardToolBarProps { 
   font: AppFont,
-  listId: number
 }
 
 function Card({ 
@@ -61,31 +67,13 @@ function Card({
           ? "SelectedLight" : "SelectedDark"
         : ""
     )}>
-      <div className="Tools">
-        <button 
-          className={colorScheme}
-          onClick={() => clickSelectHandler(listId)}
-          title="Select font"
-        >
-          <AiOutlineSelect className="buttonIcon"/> 
-        </button>
-        {listId > 0 &&
-          <button 
-            className={colorScheme}
-            onClick={() => clickToTopHandler(listId)}
-            title="Move font to top"
-          >
-            <TiArrowUp className="buttonIcon"/> 
-          </button>
-        }
-        <button 
-          className={colorScheme}
-          onClick={() => clickRemoveHandler(listId)}
-          title="Remove font"
-        >
-          <FaRegWindowClose className="buttonIcon"/> 
-        </button>
-      </div>
+    <CardToolBar 
+      colorScheme={colorScheme}
+      listId={listId}
+      clickRemoveHandler={clickRemoveHandler}
+      clickToTopHandler={clickToTopHandler}
+      clickSelectHandler={clickSelectHandler}
+    />
       <p>{listId}. {font.family}</p>
       <div>
         <link rel="stylesheet" type="text/css" href={font.styleSheetURL} />
@@ -168,7 +156,7 @@ class Cards extends React.Component<CardsProps> {
     div.innerHTML = this.props.data.input;
     div.style.fontFamily = 'Montserrat'; //just some big Font
     div.style.fontSize = '14pt';  //TODO dynamic
-    return 200; //div.measureText().width;
+    return 150; //div.measureText().width;
   }
 
   render () {
@@ -194,9 +182,10 @@ class Cards extends React.Component<CardsProps> {
         <AutoSizer>
           {({ height, width }) => (
             <Grid
+              overscanRowsCount={10}
               className="Grid"
               columnCount={columnCount}
-              columnWidth={width / columnCount + GUTTER_SIZE}
+              columnWidth={width / (columnCount+0.01) - 2*GUTTER_SIZE}
               height={height}
               innerElementType={innerElementType}
               rowCount={Math.ceil(this.props.data.fonts.length / columnCount)}
@@ -215,17 +204,7 @@ class Cards extends React.Component<CardsProps> {
 }
 
 
-type Fonts = AppFont[] | [];
-
-interface AppState {
-  fonts: Fonts,
-  bakFonts: Fonts,
-  columnCount: number,
-  inputText: Input,
-  searchText: string,
-  fontSize: FontSize,
-  colorScheme: ColorScheme,
-}
+interface AppState extends MainToolBarBase, InfoBarProps {}
 
 export default class App extends React.Component {
   readonly state: AppState = {
@@ -271,13 +250,16 @@ export default class App extends React.Component {
     }
   }
 
-  setListOrGrid = () => this.setState({
+  switchListGrid = () => this.setState({
     columnCount: this.state.columnCount === 1 ? COLUMN_COUNT: 1
   });
 
   render() {
+    //TODO the bootstrap Navbar was lazy implementation 
+    //and doesn't completely fit the style ... 
+    //it is to be consiere like a placeholder, as the links aren't 
+    //implemented anyway'
     const fonts = this.filteredFonts();
-    //TODO the bootstrap Navbar is little lazy and doesn't completely fit the style ... 
     return (
       <div className={classNames("App", this.state.colorScheme)}>
         <Navbar 
@@ -295,70 +277,28 @@ export default class App extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div className={classNames("Tools", "MainToolBar")}>
-          <TextInput
-            value={this.state.searchText}
-            placeHolder="search fonts" 
-            changeHandler={e => this.setState({ searchText: e.target.value })}
-            className={this.state.colorScheme}
-          />
-          <TextInput 
-            value={this.state.inputText}
-            placeHolder="type-something" 
-            changeHandler={e => this.setState({ inputText: e.target.value })}
-            className={this.state.colorScheme}
-          />
-          <select 
-            className={this.state.colorScheme}
-            title="chose font size"
-            onChange={(e: any): void => this.setState(
-              { fontSize: e.target.value }
-            )}
-          >
-            {fontSizeOptions.map((fontSize: FontSize) => (
-              <option value={fontSize}>{fontSize}</option>
-            ))}
-          </select>
-          <select 
-            className={this.state.colorScheme}
-            title="chose Color"
-            onChange={(e: any): void => this.setState(
-              { colorScheme: e.target.value }
-            )}
-          >
-            {colorSchemeOptions.map((color: ColorScheme) => (
-              <option 
-                value={color} 
-                className={classNames(color, "NoSelectMarker")}
-              >
-                &#9673;
-              </option>
-            ))}
-          </select>
-          <button 
-            className={this.state.colorScheme}
-            onClick={this.setListOrGrid}
-            title={`View as ${this.state.columnCount === 1
-              ? 'Grid'
-              : 'List'
-            }`}
-          >
-            {this.state.columnCount === 1 
-              ? <FiGrid />
-              : <FaList />
-            }
-          </button>
-          <button 
-            className={this.state.colorScheme}
-            onClick={this.resetState}
-            title="Reset"
-          >
-            <AiOutlineReload />
-          </button>
-        </div>
-        <div className="Tools">
-          Viewing {fonts && fonts.length} out of  {this.state.bakFonts && this.state.bakFonts.length} fonts.
-        </div>
+        <MainToolBar 
+          inputText={this.state.inputText}
+          searchText={this.state.searchText}
+          fontSize={this.state.fontSize}
+          colorScheme={this.state.colorScheme}
+          columnCount={this.state.columnCount}
+          changeSearchHandler={e => {
+            this.setState({ searchText: e.target.value });
+          }}
+          changeTextHandler={e => {
+            this.setState({ inputText: e.target.value });
+          }}
+          changeSelectFontSizeHandler={e => {
+            this.setState({ fontSize: e.target.value });
+          }}
+          changeSelectColorHandler={e => {
+            this.setState({ colorScheme: e.target.value });
+          }}
+          switchListGrid={this.switchListGrid}
+          resetState={this.resetState}
+        />
+        <InfoBar fonts={fonts} bakFonts={this.state.bakFonts}/>
         <div className="Cards">
           {fonts!==[] && 
             <Cards 

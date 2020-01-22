@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { EventValueHandler } from '../common/types';
+import { EventHandler, InputEvent } from '../common/types';
 import { ColorScheme } from '../constants/ColorSchemes';
 
 interface TextInputProps {
   value: string,
   placeHolder: string,
-  changeHandler: EventValueHandler,
+  changeHandler: EventHandler<InputEvent>,
   className: ColorScheme,
 }
 
