@@ -1,141 +1,15 @@
 .App {
-  text-align: center;
-  font-size: 14px;
-}
-
-/* ColorSchemes to extend .App in App */
-.LightBlack {
-  color: #000;
-  background-color: #fff;
-}
-
-.LightBlue {
-  color: Blue;
-  background-color: #fff;
-}
-
-.LightGreen {
-  color: Green;
-  background-color: #fff;
-}
-
-.DarkWhite {
-  color: #fff;
-  background-color: #000;
-}
-
-.DarkYellow {
-  color: Yellow;
-  background-color: #000;
-}
-
-.DarkGreen {
-  color: LightGreen;
-  background-color: #000;
-}
-
-.SelectedDark {
-  border: 2px solid Blue;
-}
-
-.SelectedLight {
-  border: 2px solid Yellow;
-}
-
-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  text-align: center;
+  font-size: 14px;
+  height: 100vh;
 }
 
-footer {
+Footer {
   width: 100%;
   text-align: center;
   font-size: 10px;
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
 }
-
-.Card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-top: 1px solid;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.Cards {
-  height: 80vh;
-}
-
-.Tools {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-/*extends .Tools in App */
-.MainToolBar {
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 1rem; 
-  box-shadow: 2px 2px;
-  margin: 10px;
-  padding: 0 10px;
-}
-
-.InfoBar {
-  font-size: 12px;
-}
-
-Select, Button {
-  border: 1px solid transparent;
-}
-
-Select {
-  appearance: none;
-  padding: 5px 10px;
-}
-
-.NoSelectMarker:after { 
-  user-select: none;
-}
-
-Select:hover, Button:hover {
-  border: 1px solid;
-  border-radius: 0.3rem;
-}
-
-.buttonIcon {
-  font-size: 20px;
-}
-
-.ScrollToTop {
-  position: absolute;
-  z-index: 10;
-  bottom: 20px;
-  right: 40px;
-  border: 1px solid;
-  border-radius: 2rem;
-  font-size: 2rem;
-  box-shadow: 2px 2px;
-}
-
-.TextInput {
-  border: none;
-  border-bottom: 1px solid;
-  height: 35px;
-  padding: 0 5px;
-  border-radius: 5px;
-}
-
-.vl {
-  border-left: 1px solid;
-  height: 30px;
-}
-

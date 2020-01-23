@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import './Tools.css';
 import { EventHandler, InputEvent } from '../common/types';
 import { ColorScheme } from '../constants/ColorSchemes';
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import update from 'immutability-helper';
 //import ReactDOM from "react-dom";
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import classNames from 'classnames';
 
+import './App.css';
+import './ColorSchemes.css';
 import { defaultSize } from './constants/FontSizes';
 import { defaultColor } from './constants/ColorSchemes';
 import { 
@@ -88,9 +89,11 @@ export default class App extends React.Component {
     return (
       <div className={classNames("App", this.state.colorScheme)} ref={this.appRef}>
         <Navbar 
+          sticky="top"
           variant={this.state.colorScheme.includes('Light') ? "light" : "dark"} 
           className={this.state.colorScheme} 
-          expand="lg">
+          expand="md"
+        >
           <Navbar.Brand href="#home">Google Fonts</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -126,43 +129,41 @@ export default class App extends React.Component {
           resetState={this.resetState}
         />
         <InfoBar fonts={fonts} bakFonts={this.state.bakFonts}/>
-        <div className="Cards">
-          {fonts!==[] && 
-            <CardsContainer
-              data={{
-                fonts, 
-                columnCount: this.state.gridDisplay ? this.state.columnCount : 1,
-                input: this.state.inputText,
-                fontSize: this.state.fontSize,
-                colorScheme: this.state.colorScheme,
-                clickRemoveHandler: listId => {
-                  //if (sureFonts.indexOf(listId) !== -1) { //TODO type problem
-                  if (fonts.length > listId) {
-                    fonts.splice(listId, 1);
-                    this.setState({ fonts: fonts });
-                  }
-                },
-                clickToTopHandler: listId => {
-                  if (fonts.length > listId) {
-                    const newTop = fonts.splice(listId, 1)[0];
-                    this.setState({ fonts: [newTop, ...fonts]});
-                  }
-                },
-                clickSelectHandler: listId => {
-                  if (fonts.length > listId) {
-                    const selected = fonts[listId].selected;
-                    this.setState({
-                      fonts: update(
-                        fonts, 
-                        {[listId]: {selected: {$set: !selected}}}
-                      )
-                    });
-                  }
-                },
-              }} 
-            />
-          }
-        </div>
+        {fonts!==[] && 
+          <CardsContainer
+            data={{
+              fonts, 
+              columnCount: this.state.gridDisplay ? this.state.columnCount : 1,
+              input: this.state.inputText,
+              fontSize: this.state.fontSize,
+              colorScheme: this.state.colorScheme,
+              clickRemoveHandler: listId => {
+                //if (sureFonts.indexOf(listId) !== -1) { //TODO type problem
+                if (fonts.length > listId) {
+                  fonts.splice(listId, 1);
+                  this.setState({ fonts: fonts });
+                }
+              },
+              clickToTopHandler: listId => {
+                if (fonts.length > listId) {
+                  const newTop = fonts.splice(listId, 1)[0];
+                  this.setState({ fonts: [newTop, ...fonts]});
+                }
+              },
+              clickSelectHandler: listId => {
+                if (fonts.length > listId) {
+                  const selected = fonts[listId].selected;
+                  this.setState({
+                    fonts: update(
+                      fonts, 
+                      {[listId]: {selected: {$set: !selected}}}
+                    )
+                  });
+                }
+              },
+            }} 
+          />
+        }
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>

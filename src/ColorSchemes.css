@@ -1,0 +1,39 @@
+/* ColorSchemes to extend .App in App */
+
+.LightBlack {
+  color: #000;
+  background-color: #fff;
+}
+
+.LightBlue {
+  color: Blue;
+  background-color: #fff;
+}
+
+.LightGreen {
+  color: Green;
+  background-color: #fff;
+}
+
+.DarkWhite {
+  color: #fff;
+  background-color: #000;
+}
+
+.DarkYellow {
+  color: Yellow;
+  background-color: #000;
+}
+
+.DarkGreen {
+  color: LightGreen;
+  background-color: #000;
+}
+
+.SelectedDark {
+  border: 2px solid Blue;
+}
+
+.SelectedLight {
+  border: 2px solid Yellow;
+}

@@ -6,6 +6,7 @@ import { TiArrowUp, TiArrowShuffle } from 'react-icons/ti';
 import { AiOutlineReload, AiOutlineSelect } from 'react-icons/ai';
 import { FaRegWindowClose, FaList } from 'react-icons/fa';
 
+import './ToolBar.css';
 import fontSizeOptions, { FontSize } from './constants/FontSizes';
 import colorSchemeOptions, { ColorScheme } from './constants/ColorSchemes';
 import { TextInput } from './components/Tools';
@@ -93,11 +94,11 @@ export function MainToolBar({
         <button 
           className={classNames(colorScheme, "buttonIcon")}
           onClick={switchListGrid}
-          title={`View as ${gridDisplay ? 'Grid'  : 'List'}`}
+          title={`View as ${gridDisplay ? 'List'  : 'Grid'}`}
         >
           {gridDisplay 
-            ? <FiGrid className="buttonIcon"/> 
-            : <FaList className="buttonIcon"/>
+            ? <FaList className="buttonIcon"/>
+            : <FiGrid className="buttonIcon"/> 
           }
         </button>
       }

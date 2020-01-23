@@ -1,4 +1,4 @@
-import React, { forwardRef, Fragment } from 'react';
+import React, { forwardRef } from 'react';
 import CSS from 'csstype';
 
 import { FixedSizeGrid as Grid } from 'react-window';
@@ -6,6 +6,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import { TiArrowUp } from 'react-icons/ti';
 import classNames from 'classnames';
 
+import './Cards.css';
 import { FontSize } from './constants/FontSizes';
 import {
   CardToolBarProps,
@@ -146,22 +147,20 @@ export default class Cards extends React.Component<CardsProps> {
   render () {
     const columnCount = this.props.data.columnCount;
     return(
-      <Fragment>
-        <div>
-          <button
-            className={classNames("ScrollToTop", this.props.data.colorScheme)}
-            onClick={() => {
-              this.gridRef.current.scrollToItem({
-                align: "start",
-                columnIndex: 0,
-                rowIndex: 0,
-              });
-            }}
-            title="Scroll to top"
-          >
-            <TiArrowUp /> 
-          </button>
-        </div>
+      <div className="CardsContainer">
+        <button
+          className={classNames("ScrollToTop", this.props.data.colorScheme)}
+          onClick={() => {
+            this.gridRef.current.scrollToItem({
+              align: "start",
+              columnIndex: 0,
+              rowIndex: 0,
+            });
+          }}
+          title="Scroll to top"
+        >
+          <TiArrowUp /> 
+        </button>
         <AutoSizer>
           {({ height, width }) => (
             <Grid
@@ -185,7 +184,8 @@ export default class Cards extends React.Component<CardsProps> {
             </Grid>
           )}
         </AutoSizer>
-      </Fragment>
+      </div>
+
     );
   }
 }
