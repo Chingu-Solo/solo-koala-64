@@ -10,33 +10,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 TODO: These instructions will get you a copy of the project up and running on your local machine ... 
 
-### Prerequisites TODO
-
-What things you need to install the software and how to install them
-
-
-### Installing TODO
-
-A step by step series of examples that tell you how to get a development env running
-... get create dir, ... install package.json?..
-
-Say what the step will be
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-
-
-
-
-
-## Create React App
-(Available Scripts)
-
-In the project directory, you can run:
+<details><summary>Create React App Commands</summary>
+<p>
+In the project directory, you can run (Available Scripts):
 
 ### `npm start`
 
@@ -76,3 +52,36 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+</p>
+</details>
+
+
+
+### Prerequisites TODO
+
+What things you need to install the software and how to install them
+
+
+### Installing TODO
+
+A step by step series of examples that tell you how to get a development env running
+... get create dir, ... install package.json?..
+
+Say what the step will be
+
+End with an example of getting some data out of the system or using it for a little demo
+
+
+
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+
+
+
+
+
+
