@@ -1,12 +1,13 @@
 # solo-koala-64 (Google Fonts App: Tier 2) 
 
-This web app lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different :D. Check it out here: [solo-koala-64 (to come ... )](#).
+This web app lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different and with simplistic style :D. Check it out here: [solo-koala-64 (to come ... )](#). <br />
+It even offers some additional functionality like random shuffling font-cards - maybe you discover a new font out there.
+However, there are still some [Issues and TODOs](#issues-and-todos).
 
 
 ## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
-[Jump to CRA commands](#create-react-app)
 
 TODO: These instructions will get you a copy of the project up and running on your local machine ... 
 
@@ -63,8 +64,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 </p>
 </details>
 
-
-
 ### Prerequisites TODO
 
 What things you need to install the software and how to install them
@@ -87,8 +86,11 @@ End with an example of getting some data out of the system or using it for a lit
 Explain how to run the automated tests for this system
 
 
-
-
-
+## Issues and TODOs
+- The Bootstrap Navbar is more of a placeholder and no real links or tools implemented. It is not fully customized according to app-style and does not sticky disappear on up-scroll.
+- Height of font-cards respond to text-input and text-size but not exactly.
+- Text-input fields for font-search and card-text do not span available space.
+- Persistence: The fonts get copied to a Backup state variable, which could maybe be done with MobX or Redux - but I did not learn those toolsets yet. It suffices sofar with simplicity of app.
+- as seen [here copy state](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61)
 
 
