@@ -41,5 +41,10 @@ describe('App', () => {
       //      global.fetch.mockClear();
       //    });
   });
+
+
+- jest: how test api: find > GooglFonts > ExpoLocations
+> fetch.mock > App.state.__fixtures__ > test.clickfunctions 
+= fully tested
 });
 

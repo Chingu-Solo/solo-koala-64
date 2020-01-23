@@ -20,8 +20,8 @@ import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { Fonts } from './common/types';
 import { shuffle } from './common/utils/IterablesUtils';
 
-
-const MIN_COLUMN_WIDTH: number = 500; //px
+// set the minimum width befor column-count gets reduced by 1.
+const MIN_COLUMN_WIDTH: number = 500;
 
 interface AppState extends MainToolBarBase, InfoBarProps {};
 
@@ -30,13 +30,13 @@ export default class App extends React.Component {
 
   readonly state: AppState = {
     fonts: [],
-    bakFonts: [], // backup to reset without request after messing with state
     gridDisplay: true,
-    columnCount: 1, // fallback value
     searchText: '',
     inputText: '',
     fontSize: defaultSize,
     colorScheme: defaultColor,
+    bakFonts: [], // backup to reset without request after messing with state
+    columnCount: 1, // fallback value
   }
 
   resetState = () => this.setState({ 

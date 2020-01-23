@@ -1,18 +1,53 @@
-# solo-koala-64 (favfonts) 
-Project in development ... 
+# solo-koala-64 (Google Fonts App: Tier 2) 
 
-This is my first chingu showcase in Tier2 level (Frontend Only).
-(I did setup a very minima Tier1 but want to keep private because not brought to finality - I am currently really keen on React / Typescript)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). [Jump to avaiblable commands](#create-react-app)
 
 
 
 
 
-#---------------------- create-react-app ---------------------------------------------
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- good readme:
+- ***
+create-react-app typescript (displ command) (s.below section)
+... get create dir, ... install package.json?..
+***
+- shortcomings: navbar- is not really customized according to app-style - and does not sticky disappear, height of font-card, tools could respond more nicely and text-input span available space.
+- The style is intentionally very simplistic
+- motivation: own version of Gfonts:
+- Functionality: MaintToolBar > search, (randomly shuffle fonts :)
+- Cards: remove, mark, 
+- Fully persisten: The fonts get copied to Backup state, which could maybe be done with MobX or Redux - but I did not learn those toolsets yet. It suffices sofar with simplicity of app.
 
-## Available Scripts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Create React App (Available Scripts)
+#create-react-app
 
 In the project directory, you can run:
 
