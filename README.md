@@ -88,9 +88,7 @@ Explain how to run the automated tests for this system
 
 ## Issues and TODOs
 - The Bootstrap Navbar is more of a placeholder and no real links or tools implemented. It is not fully customized according to app-style and does not sticky disappear on up-scroll.
-- Height of font-cards respond to text-input and text-size but not exactly.
+- the [react-window](https://github.com/bvaughn/react-window) Components render the visible fonts-list fast, but make harder to display it in a responsive way. Therefore, the height of font-cards respond to text-input and text-size as [calculated here](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/Cards.tsx#L174) but not exactly.
 - Text-input fields for font-search and card-text do not span available space.
-- Persistence: The fonts get copied to a Backup state variable, which could maybe be done with MobX or Redux - but I did not learn those toolsets yet. It suffices sofar with simplicity of app.
-- as seen [here copy state](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61)
-
+- Persistence: The fonts requested from Google API get [copied to a Backup state variable](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61). Probably this would rather be managed with [Redux](https://redux.js.org/) or [MobX](https://mobx.js.org/README.html). I want to learn those state management tools next:).
 
