@@ -1,6 +1,6 @@
 # solo-koala-64 (Google Fonts App: Tier 2) 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). [Jump to avaiblable commands](#create-react-app)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). ([Jump to CRA commands])(#-create-react-app)
 
 
 
@@ -47,7 +47,6 @@ create-react-app typescript (displ command) (s.below section)
 
 
 ## Create React App (Available Scripts)
-#create-react-app
 
 In the project directory, you can run:
 
