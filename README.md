@@ -1,7 +1,7 @@
 # solo-koala-64 (Google Fonts App: Tier 2) 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
-[Jump to CRA commands](#-create-react-app)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). <br />
+[Jump to CRA commands](#create-react-app)
 
 
 
