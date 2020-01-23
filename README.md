@@ -1,46 +1,32 @@
 # solo-koala-64 (Google Fonts App: Tier 2) 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). <br />
+This web app lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different :D. Check it out here: [solo-koala-64 (to come ... )](#).
+
+
+## Getting Started
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
 [Jump to CRA commands](#create-react-app)
 
+TODO: These instructions will get you a copy of the project up and running on your local machine ... 
+
+### Prerequisites TODO
+
+What things you need to install the software and how to install them
 
 
+### Installing TODO
 
-
-
-- good readme:
-- ***
-create-react-app typescript (displ command) (s.below section)
+A step by step series of examples that tell you how to get a development env running
 ... get create dir, ... install package.json?..
-***
-- shortcomings: navbar- is not really customized according to app-style - and does not sticky disappear, height of font-card, tools could respond more nicely and text-input span available space.
-- The style is intentionally very simplistic
-- motivation: own version of Gfonts:
-- Functionality: MaintToolBar > search, (randomly shuffle fonts :)
-- Cards: remove, mark, 
-- Fully persisten: The fonts get copied to Backup state, which could maybe be done with MobX or Redux - but I did not learn those toolsets yet. It suffices sofar with simplicity of app.
 
+Say what the step will be
 
+End with an example of getting some data out of the system or using it for a little demo
 
+## Running the tests
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Explain how to run the automated tests for this system
 
 
 
