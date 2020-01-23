@@ -47,7 +47,7 @@ create-react-app typescript (displ command) (s.below section)
 
 
 
-##Create React App
+## Create React App
 (Available Scripts)
 
 In the project directory, you can run:
