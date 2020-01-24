@@ -14,18 +14,19 @@ However, there are still some [Issues and TODOs](#issues-and-todos).
 ## Installation
 
 ```
+# get local source code
 git clone [this repo] 
 cd [local repository]
 
-#Delete package-lock.json
+# delete package-lock.json
 rm ./package-lock.json
-
-# add your Google (fonts) API key to:
 ```
-nano .env
+
+- add your Google (fonts) API key to .env exactly as follows:
 ```
 # .env
 REACT_APP_GOOGLE_FONTS_API_KEY=your-api-kes
+```
 
 
 ```
@@ -94,7 +95,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 </details>
 
 
-## Issues and TODOs
+## Issues And Todos
 
 ### Styling Issues
 
