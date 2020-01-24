@@ -57,7 +57,7 @@ export function Card({
     <p style={{ margin: "1rem 0" }}>
       {font.family}
       <span style={{ fontSize: "0.8rem" }}>
-        {` (${ordinalSuffixOf(font.ranking)} popular)`}
+        {` (${ordinalSuffixOf(font.ranking)} in popularity)`}
       </span>
     </p>
       <div>

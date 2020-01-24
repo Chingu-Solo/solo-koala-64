@@ -9,7 +9,18 @@ However, there are still some [Issues and TODOs](#issues-and-todos).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
 
-TODO: These instructions will get you a copy of the project up and running on your local machine ... 
+```
+git clone [this repo] 
+cd [local repository]
+```
+Delete package-lock.json if present.
+
+```
+npm install
+```
+```
+npm start
+```
 
 <details><summary>Create React App Commands</summary>
 <p>
