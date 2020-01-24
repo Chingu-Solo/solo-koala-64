@@ -6,10 +6,11 @@ export async function get<T>(url: string): Promise<T | never> {
     }
   } catch (ex) {}
   return await response.json();
+}
 
 
 
-
+//TODO correctly - maybe like below ?
 //export interface HttpResponse<T> extends Response {
 //  parsedBody?: T;
 //}
@@ -32,4 +33,3 @@ export async function get<T>(url: string): Promise<T | never> {
 //    }
 //  } catch (ex) {}
 //  return response;
-//}

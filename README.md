@@ -94,5 +94,6 @@ End with an example of getting some data out of the system or using it for a lit
 
 ### Testing Shortcomings
 
-- ./common/utils/ApiUtils.test.ts lacks alot of testing, there is a list missing cases. I could not establish to test whether api request throws an error if !response.ok
+- ./__tests__/App.tests.tsx there is a problem with mocking fetch. So no tests work currently ! Ther problem originates in ... ./common/utils/ApiUtils.ts. And I didn't find a way to mock the ComponentDidMount method and initiate some state workaround. Please help. The tests shallow rendering (enzyme) of App.tsx worked sometimes but but failed otherwise.
+- ./common/utils/__tests__/ApiUtils.test.ts lacks alot of testing, there is a list missing cases. I could not establish to test whether api request throws an error if !response.ok
 - I did not do coverage checks yet - but alot is uncovered.
