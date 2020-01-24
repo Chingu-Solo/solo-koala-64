@@ -2,33 +2,188 @@
 
 exports[`App renders screen as expected 1`] = `
 <div
-  className="App"
+  className="App LightBlack"
 >
-  <header>
-    <p>
+  <nav
+    className="LightBlack navbar navbar-expand-md navbar-light sticky-top"
+  >
+    <a
+      className="navbar-brand"
+      href="#home"
+    >
       Google Fonts
-    </p>
-  </header>
+    </a>
+    <button
+      aria-controls="basic-navbar-nav"
+      aria-label="Toggle navigation"
+      className="navbar-toggler collapsed"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="navbar-toggler-icon"
+      />
+    </button>
+    <div
+      aria-expanded={null}
+      className="navbar-collapse collapse"
+      id="basic-navbar-nav"
+    >
+      <div
+        className="mr-auto navbar-nav"
+        onKeyDown={[Function]}
+      >
+        <a
+          className="nav-link"
+          data-rb-event-key="#"
+          href="#"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+        >
+          Catalog
+        </a>
+        <a
+          className="nav-link"
+          data-rb-event-key="#"
+          href="#"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+        >
+          Featured
+        </a>
+        <a
+          className="nav-link"
+          data-rb-event-key="#"
+          href="#"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+        >
+          Articles
+        </a>
+        <a
+          className="nav-link"
+          data-rb-event-key="#"
+          href="#"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+        >
+          About
+        </a>
+      </div>
+    </div>
+  </nav>
   <div
-    className="Tools"
+    className="Tools MainToolBar"
   >
     <input
+      className="TextInput LightBlack"
       onChange={[Function]}
-      placeholder="search fonts"
+      placeholder="🔍 search fonts"
       type="text"
       value=""
     />
     <input
+      className="TextInput LightBlack"
       onChange={[Function]}
-      placeholder="type-something"
+      placeholder="✎ type-something"
       type="text"
       value=""
     />
+    <select
+      className="LightBlack"
+      onChange={[Function]}
+      title="chose font size"
+    >
+      <option
+        value="8px"
+      >
+        8px
+      </option>
+      <option
+        value="12px"
+      >
+        12px
+      </option>
+      <option
+        value="14px"
+      >
+        14px
+      </option>
+      <option
+        value="20px"
+      >
+        20px
+      </option>
+      <option
+        value="24px"
+      >
+        24px
+      </option>
+      <option
+        value="32px"
+      >
+        32px
+      </option>
+      <option
+        value="40px"
+      >
+        40px
+      </option>
+    </select>
+    <select
+      className="LightBlack buttonIcon"
+      onChange={[Function]}
+      title="chose Color"
+    >
+      <option
+        className="LightBlack NoSelectMarker buttonIcon"
+        value="LightBlack"
+      >
+        ◉
+      </option>
+      <option
+        className="LightBlue NoSelectMarker buttonIcon"
+        value="LightBlue"
+      >
+        ◉
+      </option>
+      <option
+        className="LightGreen NoSelectMarker buttonIcon"
+        value="LightGreen"
+      >
+        ◉
+      </option>
+      <option
+        className="DarkWhite NoSelectMarker buttonIcon"
+        value="DarkWhite"
+      >
+        ◉
+      </option>
+      <option
+        className="DarkYellow NoSelectMarker buttonIcon"
+        value="DarkYellow"
+      >
+        ◉
+      </option>
+      <option
+        className="DarkGreen NoSelectMarker buttonIcon"
+        value="DarkGreen"
+      >
+        ◉
+      </option>
+    </select>
     <button
+      className="LightBlack"
       onClick={[Function]}
-      title="View as list"
+      title="shuffle font cards"
     >
       <svg
+        baseProfile="tiny"
+        className="buttonIcon"
         fill="currentColor"
         height="1em"
         stroke="currentColor"
@@ -38,20 +193,23 @@ exports[`App renders screen as expected 1`] = `
             "color": undefined,
           }
         }
-        viewBox="0 0 512 512"
+        version="1.2"
+        viewBox="0 0 24 24"
         width="1em"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M128 116V76c0-8.837 7.163-16 16-16h352c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H144c-8.837 0-16-7.163-16-16zm16 176h352c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H144c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h352c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H144c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zM16 144h64c8.837 0 16-7.163 16-16V64c0-8.837-7.163-16-16-16H16C7.163 48 0 55.163 0 64v64c0 8.837 7.163 16 16 16zm0 160h64c8.837 0 16-7.163 16-16v-64c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v64c0 8.837 7.163 16 16 16zm0 160h64c8.837 0 16-7.163 16-16v-64c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v64c0 8.837 7.163 16 16 16z"
+          d="M4 9h3.5c.736 0 1.393.391 1.851 1.001.325-.604.729-1.163 1.191-1.662-.803-.823-1.866-1.339-3.042-1.339h-3.5c-.553 0-1 .448-1 1s.447 1 1 1zM11.685 12.111c.551-1.657 2.256-3.111 3.649-3.111h1.838l-1.293 1.293c-.391.391-.391 1.023 0 1.414.195.195.451.293.707.293s.512-.098.707-.293l3.707-3.707-3.707-3.707c-.391-.391-1.023-.391-1.414 0s-.391 1.023 0 1.414l1.293 1.293h-1.838c-2.274 0-4.711 1.967-5.547 4.479l-.472 1.411c-.641 1.926-2.072 3.11-2.815 3.11h-2.5c-.553 0-1 .448-1 1s.447 1 1 1h2.5c1.837 0 3.863-1.925 4.713-4.479l.472-1.41zM15.879 13.293c-.391.391-.391 1.023 0 1.414l1.293 1.293h-2.338c-1.268 0-2.33-.891-2.691-2.108-.256.75-.627 1.499-1.09 2.185.886 1.162 2.243 1.923 3.781 1.923h2.338l-1.293 1.293c-.391.391-.391 1.023 0 1.414.195.195.451.293.707.293s.512-.098.707-.293l3.707-3.707-3.707-3.707c-.391-.391-1.023-.391-1.414 0z"
         />
       </svg>
     </button>
     <button
+      className="LightBlack"
       onClick={[Function]}
       title="Reset"
     >
       <svg
+        className="buttonIcon"
         fill="currentColor"
         height="1em"
         stroke="currentColor"
@@ -71,91 +229,56 @@ exports[`App renders screen as expected 1`] = `
       </svg>
     </button>
   </div>
-  <div
-    className="Cards"
-  />
-  <footer>
-    <p>
-      coded by faebebin | 2020 | Chingu Pre-Work Project
-    </p>
-  </footer>
-</div>
-`;
-
-exports[`App renders the loading screen 1`] = `
-<div
-  className="App"
->
-  <header>
-    <p>
-      Google Fonts
-    </p>
-  </header>
-  <div
-    className="Tools"
-  >
-    <input
-      onChange={[Function]}
-      placeholder="search fonts"
-      type="text"
-      value=""
-    />
-    <input
-      onChange={[Function]}
-      placeholder="type-something"
-      type="text"
-      value=""
-    />
-    <button
-      onClick={[Function]}
-      title="View as list"
+  <div>
+    <div
+      className="InfoBar"
     >
-      <svg
-        fill="currentColor"
-        height="1em"
-        stroke="currentColor"
-        strokeWidth="0"
-        style={
-          Object {
-            "color": undefined,
-          }
-        }
-        viewBox="0 0 512 512"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M128 116V76c0-8.837 7.163-16 16-16h352c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H144c-8.837 0-16-7.163-16-16zm16 176h352c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H144c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h352c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H144c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zM16 144h64c8.837 0 16-7.163 16-16V64c0-8.837-7.163-16-16-16H16C7.163 48 0 55.163 0 64v64c0 8.837 7.163 16 16 16zm0 160h64c8.837 0 16-7.163 16-16v-64c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v64c0 8.837 7.163 16 16 16zm0 160h64c8.837 0 16-7.163 16-16v-64c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v64c0 8.837 7.163 16 16 16z"
-        />
-      </svg>
-    </button>
-    <button
-      onClick={[Function]}
-      title="Reset"
-    >
-      <svg
-        fill="currentColor"
-        height="1em"
-        stroke="currentColor"
-        strokeWidth="0"
-        style={
-          Object {
-            "color": undefined,
-          }
-        }
-        viewBox="0 0 1024 1024"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M909.1 209.3l-56.4 44.1C775.8 155.1 656.2 92 521.9 92 290 92 102.3 279.5 102 511.5 101.7 743.7 289.8 932 521.9 932c181.3 0 335.8-115 394.6-276.1 1.5-4.2-.7-8.9-4.9-10.3l-56.7-19.5a8 8 0 0 0-10.1 4.8c-1.8 5-3.8 10-5.9 14.9-17.3 41-42.1 77.8-73.7 109.4A344.77 344.77 0 0 1 655.9 829c-42.3 17.9-87.4 27-133.8 27-46.5 0-91.5-9.1-133.8-27A341.5 341.5 0 0 1 279 755.2a342.16 342.16 0 0 1-73.7-109.4c-17.9-42.4-27-87.4-27-133.9s9.1-91.5 27-133.9c17.3-41 42.1-77.8 73.7-109.4 31.6-31.6 68.4-56.4 109.3-73.8 42.3-17.9 87.4-27 133.8-27 46.5 0 91.5 9.1 133.8 27a341.5 341.5 0 0 1 109.3 73.8c9.9 9.9 19.2 20.4 27.8 31.4l-60.2 47a8 8 0 0 0 3 14.1l175.6 43c5 1.2 9.9-2.6 9.9-7.7l.8-180.9c-.1-6.6-7.8-10.3-13-6.2z"
-        />
-      </svg>
-    </button>
+      Viewing 
+      0
+       out of 
+      0
+       fonts.
+    </div>
   </div>
   <div
-    className="Cards"
-  />
+    className="CardsContainer"
+  >
+    <button
+      className="ScrollToTop LightBlack"
+      onClick={[Function]}
+      title="Scroll to top"
+    >
+      <svg
+        baseProfile="tiny"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        strokeWidth="0"
+        style={
+          Object {
+            "color": undefined,
+          }
+        }
+        version="1.2"
+        viewBox="0 0 24 24"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13 5.586l-4.707 4.707c-.391.391-.391 1.023 0 1.414s1.023.391 1.414 0l2.293-2.293v7.586c0 .552.447 1 1 1s1-.448 1-1v-7.586l2.293 2.293c.195.195.451.293.707.293s.512-.098.707-.293c.391-.391.391-1.023 0-1.414l-4.707-4.707z"
+        />
+      </svg>
+    </button>
+    <div
+      style={
+        Object {
+          "height": 0,
+          "overflow": "visible",
+          "width": 0,
+        }
+      }
+    />
+  </div>
   <footer>
     <p>
       coded by faebebin | 2020 | Chingu Pre-Work Project

@@ -1,7 +1,5 @@
 import { render } from '@testing-library/react';
-import 
-GoogleFontsAPI, 
-{ 
+import GoogleFontsAPI, { 
   requestString, 
   styleSheetURL,
   googleFonts,
@@ -20,6 +18,10 @@ test('requestString returns expected string', () => {
   expect(requestString()).toMatch(
     /sort=popularity/
   );
+});
+
+test('basic properties of GooglFont Mock', () => {
+  expect(fontsJSON.items.length).toBe(10);
 });
 
 test('styleSheetURL returns as expected string', () => {
@@ -42,3 +44,19 @@ test('googleFonts returns as expected', () => {
   expect(gFonts[1].family).toMatch(/Open Sans/);
 });
 
+describe('check api with fixture mock', () => {
+  beforeEach(() => {
+    fetch.resetMocks()
+  });
+ 
+  it('calls get with a Google Fonts fixture', async () => {
+    fetch.mockResponseOnce(JSON.stringify(fontsJSON));
+     
+    const fonts: GoogleFont[] = await GoogleFontsAPI();
+    expect(fonts.length).toBe(10)
+ 
+    //assert on the times called and arguments given to fetch
+    expect(fonts[0].family).toBe('Roboto');
+  });
+
+});

@@ -78,14 +78,21 @@ Say what the step will be
 
 End with an example of getting some data out of the system or using it for a little demo
 
-## Running the tests TODO
-
-Explain how to run the automated tests for this system
-
 
 ## Issues and TODOs
+
+### Styling Issues
+
 - The Bootstrap Navbar is more of a placeholder and no real links or tools implemented. It is not fully customized according to app-style and does not sticky disappear on up-scroll.
 - the [react-window](https://github.com/bvaughn/react-window) Components render the visible fonts-list fast, but make harder to display it in a responsive way. Therefore, the height of font-cards respond to text-input and text-size as [calculated here](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/Cards.tsx#L174) but not exactly.
 - Text-input fields for font-search and card-text do not span available space.
-- Persistence: The fonts requested from Google API get [copied to a Backup state variable](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61). Probably this would rather be managed with [Redux](https://redux.js.org/) or [MobX](https://mobx.js.org/README.html). I want to learn those state management tools next:).
 
+### State Issues
+
+- Persistence: The fonts requested from Google API get [copied to a Backup state variable](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61). Probably this would rather be managed with [Redux](https://redux.js.org/) or [MobX](https://mobx.js.org/README.html). I want to learn those state management tools next:).
+- The backup state does sometimes get messed up, when too much shuffling and deleteing of fonts - and I would have to test more to find exact reason (which is actually a severe issue).
+
+### Testing Shortcomings
+
+- ./common/utils/ApiUtils.test.ts lacks alot of testing, there is a list missing cases. I could not establish to test whether api request throws an error if !response.ok
+- I did not do coverage checks yet - but alot is uncovered.

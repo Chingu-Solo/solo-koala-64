@@ -1,85 +1,35 @@
-export function checkResponse(response: Response | any): Response { // any because cannot setup proper Response Mock
-  // I could not setup working test for async-await with throw()
-  if (!response.ok) {
-    //alert(response.statusText);
-    throw new Error(response.statusText);
-  }
-  return response;
-}
-
 export async function get<T>(url: string): Promise<T | never> {
   const response: Response = await fetch(url);
-  return await checkResponse(response).json();
-}
+  try {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  } catch (ex) {}
+  return await response.json();
 
 
-// ... below as inspiration - maybe for bigger app 
-//import { ApiMethod, KeyValue } from "../common/types";
-//
-//export class APIService {
-//
-//  private _method: ApiMethod = "POST";
-//  private _headers: string[][] = [];
-//
-//  constructor (private _authToken: string) {
-//  }
-//
-//  get authToken (): string {
-//    return this._authToken;
-//  }
-//
-//  set authToken (newAuthToken: string) {
-//    this._authToken = newAuthToken;
-//  }
-//
-//  get headers (): string[][] {
-//    return this._headers;
-//  }
-//
-//  set method (newMethod: ApiMethod) {
-//    this._method = newMethod;
-//  }
-//
-//  public setHeaders (headers: KeyValue<string, string>[]): APIService {
-//    for (const i in headers) {
-//      if (headers[i].hasOwnProperty('key')
-//        && headers[i].hasOwnProperty('value')) {
-//        this._headers.push([headers[i].key, headers[i].value]);
-//      }
-//    }
-//    return this;
-//  }
-//
-//  public resetHeaders (): void {
-//    this._headers = [];
-//  }
-//
-//  public setMethod (newMethod: ApiMethod): APIService {
-//    this._method = newMethod;
-//    return this;
-//  }
-//
-//  public request<T> (body: T): RequestInit {
-//    return {
-//      headers: this._headers,
-//      method: this._method,
-//      body: JSON.stringify(body),
-//    }
-//  }
+
+
+//export interface HttpResponse<T> extends Response {
+//  parsedBody?: T;
 //}
 //
-//export class RequestBody<T> {
+//export async function get<T>(
+//  url: RequestInfo
+//): Promise<HttpResponse<T>> {
+//  const response: HttpResponse<T> = await fetch(
+//    url
+//  );
 //
-//  constructor (private _requestBody: T) {
-//  }
-//
-//  get requestBody (): T {
-//    return this._requestBody;
-//  }
-//
-//  set requestBody (newRequestBody: T) {
-//    this._requestBody = newRequestBody;
-//  }
+//  try {
+//    // may error if there is no body
+//    response.parsedBody = await response.json();
+//  } catch (ex) {}
+//  
+//  try {
+//    if (!response.ok) {
+//      throw new Error(response.statusText);
+//    }
+//  } catch (ex) {}
+//  return response;
 //}
-//
-//export default APIService;

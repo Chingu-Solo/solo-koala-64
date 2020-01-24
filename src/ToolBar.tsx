@@ -72,8 +72,8 @@ export function MainToolBar({
         title="chose font size"
         onChange={changeSelectFontSizeHandler}
       >
-        {fontSizeOptions.map((fontSize: FontSize) => (
-          <option value={fontSize}>{fontSize}</option>
+        {fontSizeOptions.map((fontSize: FontSize, i) => (
+          <option value={fontSize} key={i}>{fontSize}</option>
         ))}
       </select>
       <select 
@@ -81,8 +81,9 @@ export function MainToolBar({
         title="chose Color"
         onChange={changeSelectColorHandler}
       >
-        {colorSchemeOptions.map((color: ColorScheme) => (
+        {colorSchemeOptions.map((color: ColorScheme, i) => (
           <option 
+            key={i}
             value={color} 
             className={classNames(color, "NoSelectMarker", "buttonIcon")}
           >

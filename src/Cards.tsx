@@ -31,7 +31,7 @@ interface CardProps extends CardBase, CardToolBarProps {
   font: AppFont,
 }
 
-function Card({ 
+export function Card({ 
   font, 
   fontSize,
   colorScheme,
