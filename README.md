@@ -1,6 +1,6 @@
-# solo-koala-64 (Google Fonts App: Tier 2) 
+# solo-koala-64 (Favourite Fonts App: Tier 2) 
 
-This web app lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different and with simplistic style :D. Check it out here: [solo-koala-64 (to come ... )](https://faebebin.github.io/favfonts). <br />
+This web app [try it](https://faebebin.github.io/favfonts) in simplistic style lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different :D.<br />
 It even offers some additional functionality like random shuffling font-cards - maybe you discover a new font out there.
 However, there are still some [Issues and TODOs](#issues-and-todos).
 
