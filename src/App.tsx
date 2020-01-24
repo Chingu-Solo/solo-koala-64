@@ -15,6 +15,7 @@ import {
   InfoBarProps,
   InfoBar
 } from './ToolBar';
+import { TiArrowUp } from 'react-icons/ti';
 import CardsContainer from './Cards';
 import getGoogleFonts, { GoogleFont } from './api/GoogleFonts';
 import { Fonts } from './common/types';
@@ -27,6 +28,7 @@ interface AppState extends MainToolBarBase, InfoBarProps {};
 
 export default class App extends React.Component {
   appRef: any = React.createRef();
+  gridRef: any = React.createRef();
 
   readonly state: AppState = {
     fonts: [],
@@ -82,6 +84,14 @@ export default class App extends React.Component {
 
   shuffleFonts = () => {this.setState({ fonts: shuffle(this.state.fonts) })}
 
+  scrollToTop = () => {
+    this.gridRef.current.scrollToItem({
+      align: "start",
+      columnIndex: 0,
+      rowIndex: 0,
+    });
+  }
+
   render() {
     //TODO the bootstrap Navbar was lazy implementation and doesn't completely fit the style ... 
     //it is more of a placeholder, as no links aren't yet implemented anyway'
@@ -126,11 +136,15 @@ export default class App extends React.Component {
           }}
           switchListGrid={this.switchListGrid}
           shuffleFonts={this.shuffleFonts}
-          resetState={this.resetState}
+          resetState={() => {
+            this.resetState();
+            this.scrollToTop();
+          }}
         />
         <InfoBar fonts={fonts} bakFonts={this.state.bakFonts}/>
         {fonts!==[] && 
           <CardsContainer
+            gridRef={this.gridRef}
             data={{
               fonts, 
               columnCount: this.state.gridDisplay ? this.state.columnCount : 1,
@@ -164,6 +178,13 @@ export default class App extends React.Component {
             }} 
           />
         }
+        <button
+          className={classNames("ScrollToTop", this.state.colorScheme)}
+          onClick={this.scrollToTop}
+          title="Scroll to top"
+        >
+          <TiArrowUp /> 
+        </button>
         <footer>
           <p>coded by faebebin | 2020 | Chingu Pre-Work Project</p>
         </footer>

@@ -4,6 +4,9 @@ export async function get<T>(url: string): Promise<T | never> {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
+    if (response.status === 400) {
+      throw new Error(response.statusText);
+    }
   } catch (ex) {}
   return await response.json();
 }

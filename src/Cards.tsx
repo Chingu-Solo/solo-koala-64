@@ -3,7 +3,6 @@ import CSS from 'csstype';
 
 import { FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import { TiArrowUp } from 'react-icons/ti';
 import classNames from 'classnames';
 
 import './Cards.css';
@@ -76,7 +75,7 @@ export function Card({
 }
 
 
-interface CardsProps {
+interface CardsBase {
   // react-window requires to include all information in one {data} prop
   data: CardBase & {
     fonts: AppFont[],
@@ -84,7 +83,7 @@ interface CardsProps {
   },
 }
 
-interface CellProps extends CardsProps {
+interface CellProps extends CardsBase {
   columnIndex: number, 
   rowIndex: number, 
   style: CSS.Properties | any,
@@ -133,10 +132,11 @@ const innerElementType = forwardRef(({ style, ...rest }: CellProps, ref: any) =>
   />
 ));
 
+interface CardsProps extends CardsBase {
+  gridRef: any,
+}
 
 export default class Cards extends React.Component<CardsProps> {
-  gridRef: any = React.createRef();
-
   textWidth(): number {
     const el: any = document.createElement('canvas');
     const context: any = el.getContext("2d");
@@ -148,23 +148,10 @@ export default class Cards extends React.Component<CardsProps> {
     const columnCount = this.props.data.columnCount;
     return(
       <div className="CardsContainer">
-        <button
-          className={classNames("ScrollToTop", this.props.data.colorScheme)}
-          onClick={() => {
-            this.gridRef.current.scrollToItem({
-              align: "start",
-              columnIndex: 0,
-              rowIndex: 0,
-            });
-          }}
-          title="Scroll to top"
-        >
-          <TiArrowUp /> 
-        </button>
         <AutoSizer>
           {({ height, width }) => (
             <Grid
-              overscanRowsCount={10}
+              overscanRowCount={10}
               className="Grid"
               columnCount={columnCount}
               columnWidth={width / columnCount - GUTTER_SIZE}
@@ -178,14 +165,13 @@ export default class Cards extends React.Component<CardsProps> {
               )}
               width={width}
               itemData={this.props.data}
-              ref={this.gridRef}
+              ref={this.props.gridRef}
             >
               {Cell}
             </Grid>
           )}
         </AutoSizer>
       </div>
-
     );
   }
 }
