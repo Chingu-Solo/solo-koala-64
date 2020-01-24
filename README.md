@@ -5,9 +5,13 @@ It even offers some additional functionality like random shuffling font-cards - 
 However, there are still some [Issues and TODOs](#issues-and-todos).
 
 
-## Getting Started
+### Prerequisites
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
+- npm
+- typescript
+
+
+## Installation
 
 ```
 git clone [this repo] 
@@ -18,6 +22,11 @@ Delete package-lock.json if present.
 ```
 npm install
 ```
+
+### Run it 
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
+
 ```
 npm start
 ```
@@ -74,20 +83,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 </p>
 </details>
-
-### Prerequisites TODO
-
-What things you need to install the software and how to install them
-
-
-### Installing TODO
-
-A step by step series of examples that tell you how to get a development env running
-... get create dir, ... install package.json?..
-
-Say what the step will be
-
-End with an example of getting some data out of the system or using it for a little demo
 
 
 ## Issues and TODOs

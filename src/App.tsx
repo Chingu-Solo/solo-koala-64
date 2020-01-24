@@ -52,17 +52,19 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const gFonts: GoogleFont[] = await getGoogleFonts();
-    const fonts: Fonts = gFonts.map(
-      (font, i) => Object.defineProperties(font, {
-        selected: { value: false },
-        ranking: { value: i+1 }
-      }
-    ));
-    this.setState({ 
-      fonts, 
-      bakFonts: [...fonts],
-      columnCount: this.getColumnCount(this.appRef.current.offsetWidth)
-    });
+    if (gFonts) {
+      const fonts: Fonts = gFonts.map(
+        (font, i) => Object.defineProperties(font, {
+          selected: { value: false },
+          ranking: { value: i+1 }
+        }
+      ));
+      this.setState({ 
+        fonts, 
+        bakFonts: [...fonts],
+        columnCount: this.getColumnCount(this.appRef.current.offsetWidth)
+      });
+    }
     window.addEventListener('resize', () => this.updateColumnnCount());
   }
 
