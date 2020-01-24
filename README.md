@@ -25,8 +25,9 @@ rm ./package-lock.json
 - add your Google (fonts) API key to .env exactly as follows:
 ```
 # .env
-REACT_APP_GOOGLE_FONTS_API_KEY=your-api-kes
+REACT_APP_GOOGLE_FONTS_API_KEY=your-api-key
 ```
+(replace your-api-key with your secret)
 
 
 ```
@@ -35,11 +36,7 @@ npm install
 
 ### Run it 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and Typesccript <br />
-
-```
-npm start
-```
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and Typesccript <br />
 
 <details><summary>Create React App Commands</summary>
 <p>
@@ -96,6 +93,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 ## Issues And Todos
+
+### Developer Console 400 Errors
+- Both, Google-Fonts-Developer-API request and Google-Fonts style requests logging Errors to Developer Console. The whole issue is related to my ongoing problem to correctly handle fetch() call and catch errors. This is also causing testing issues (below). The proper fetch() handling ist my next TOOD point.
 
 ### Styling Issues
 
