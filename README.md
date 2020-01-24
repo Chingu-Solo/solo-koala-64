@@ -16,10 +16,10 @@ However, there are still some [Issues and TODOs](#issues-and-todos).
 ```
 git clone [this repo] 
 cd [local repository]
-```
-Delete package-lock.json if present.
 
-```
+#Delete package-lock.json
+rm ./package-lock.json
+
 npm install
 ```
 
