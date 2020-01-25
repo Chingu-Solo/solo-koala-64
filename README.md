@@ -2,7 +2,7 @@
 
 This web app [(try it)](https://faebebin.github.io/favfonts) in simplistic style lets you play around with the most popular Google Fonts almost like in [fonts.google.com](https://fonts.google.com) but different :D.<br />
 It even offers some additional functionality like random shuffling font-cards - maybe you discover a new font out there.
-However, there are still some [Issues and TODOs](#issues-and-todos).
+However, there are still some [Issues and TODOs](https://github.com/Chingu-Solo/solo-koala-64/issues).
 
 
 ### Prerequisites
@@ -90,26 +90,3 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 </p>
 </details>
-
-
-## Issues And Todos
-
-### Developer Console 400 Errors
-- Both, Google-Fonts-Developer-API request and Google-Fonts style requests logging Errors to Developer Console. The whole issue is related to my ongoing problem to correctly handle fetch() call and catch errors. This is also causing testing issues (below). The proper fetch() handling ist my next TOOD point.
-
-### Styling Issues
-
-- The Bootstrap Navbar is more of a placeholder and no real links or tools implemented. It is not fully customized according to app-style and does not sticky disappear on up-scroll.
-- the [react-window](https://github.com/bvaughn/react-window) Components render the visible fonts-list fast, but make harder to display it in a responsive way. Therefore, the height of font-cards respond to text-input and text-size as [calculated here](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/Cards.tsx#L174) but not exactly.
-- Text-input fields for font-search and card-text do not span available space.
-
-### State Issues
-
-- Persistence: The fonts requested from Google API get [copied to a Backup state variable](https://github.com/Chingu-Solo/solo-koala-64/blob/092731ef64b213b8350e61aca0d4c8e022d52498/src/App.tsx#L61). Probably this would rather be managed with [Redux](https://redux.js.org/) or [MobX](https://mobx.js.org/README.html). I want to learn those state management tools next:).
-- The backup state does sometimes get messed up, when too much shuffling and deleteing of fonts - and I would have to test more to find exact reason (which is actually a severe issue).
-
-### Testing Shortcomings
-
-- ./__tests__/App.tests.tsx there is a problem with mocking fetch. So no tests work currently ! Ther problem originates in ... ./common/utils/ApiUtils.ts. And I didn't find a way to mock the ComponentDidMount method and initiate some state workaround. Please help. The tests shallow rendering (enzyme) of App.tsx worked sometimes but but failed otherwise.
-- ./common/utils/__tests__/ApiUtils.test.ts lacks alot of testing, there is a list missing cases. I could not establish to test whether api request throws an error if !response.ok
-- I did not do coverage checks yet - but alot is uncovered.
